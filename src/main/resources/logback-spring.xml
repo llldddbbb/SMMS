@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <!-- 开发、测试环境 -->
+    <springProfile name="dev">
+        <logger name="org.springframework.web" level="INFO"/>
+        <logger name="com.smms" level="DEBUG" />
+    </springProfile>
+
+    <!-- 生产环境 -->
+    <springProfile name="pro">
+        <logger name="org.springframework.web" level="ERROR"/>
+        <logger name="com.smms" level="ERROR" />
+    </springProfile>
+
+</configuration>
