@@ -7,6 +7,9 @@ server:
     port: 8082
 # mysql
 spring:
+    # 环境 dev|pro
+    profiles:
+        active: dev
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
@@ -20,21 +23,20 @@ spring:
 # Mybatis配置
 mybatis:
     mapperLocations: classpath:mappers/**/*.xml
-    type-aliases-package: com.smms.pojo.po
 #通用Mapper
 mapper:
-  mappers: com.smms.util.MyMapper
-  not-empty: false
-  identity: MYSQL
+    mappers: com.smms.common.util.MyMapper
+    not-empty: false
+    identity: MYSQL
 #pageHelper
 pagehelper:
-  helperDialect: mysql
-  reasonable: true
-  support-methods-arguments: true
-  params: count=countSql
+    helperDialect: mysql
+    reasonable: true
+    support-methods-arguments: true
+    params: count=countSql
 #lockback配置
 logging:
-  file: D://smms/smms.log
+    file: D://smms/smms.log
 
 
 

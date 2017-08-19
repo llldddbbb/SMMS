@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.smms.util;
+package com.smms.common.util;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;

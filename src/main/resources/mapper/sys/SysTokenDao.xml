@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smms.modules.sys.dao.SysTokenDao">
+  <resultMap id="BaseResultMap" type="com.smms.modules.sys.entity.SysToken">
+    <id column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="expire_time" jdbcType="TIMESTAMP" property="expireTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+
+  <select id="queryByToken" parameterType="String" resultMap="BaseResultMap">
+    select * from sys_token where token=#{token};
+  </select>
+</mapper>
