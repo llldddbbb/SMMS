@@ -1,7 +1,7 @@
 package com.smms.modules.sys.oauth2;
 
 import com.smms.common.entity.Result;
-import com.smms.common.util.JsonUtil;
+import com.smms.common.util.JsonUtils;
 import org.apache.http.HttpStatus;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -46,7 +46,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
         String token = getRequestToken((HttpServletRequest) request);
         if(StringUtils.isEmpty(token)){
             HttpServletResponse httpResponse = (HttpServletResponse) response;
-            String json = JsonUtil.toJson(Result.error(HttpStatus.SC_UNAUTHORIZED, "invalid token"));
+            String json = JsonUtils.toJson(Result.error(HttpStatus.SC_UNAUTHORIZED, "invalid token"));
             httpResponse.getWriter().print(json);
             return false;
         }
@@ -61,7 +61,7 @@ public class OAuth2Filter extends AuthenticatingFilter {
             //处理登录失败的异常
             Throwable throwable = e.getCause() == null ? e : e.getCause();
             Result result = Result.error(HttpStatus.SC_UNAUTHORIZED, throwable.getMessage());
-            String json = JsonUtil.toJson(result);
+            String json = JsonUtils.toJson(result);
             httpResponse.getWriter().print(json);
         } catch (IOException e1) {
 
