@@ -71,6 +71,7 @@
 <script src="libs/vue.min.js"></script>
 <script src="libs/bootstrap.min.js"></script>
 <script src="libs/app.js"></script>
+<script src="js/common.js"></script>
 <script type="text/javascript">
 var vm = new Vue({
 	el:'#rrapp',
@@ -89,6 +90,7 @@ var vm = new Vue({
 	},
 	methods: {
         refreshCode: function(){
+            //加时间戳防止浏览器读取缓存文件
             this.src = "captcha.jpg?t=" + $.now();
         },
 		login: function () {

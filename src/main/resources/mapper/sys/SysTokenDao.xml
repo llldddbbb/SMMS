@@ -11,4 +11,8 @@
   <select id="queryByToken" parameterType="String" resultMap="BaseResultMap">
     select * from sys_token where token=#{token};
   </select>
+
+  <select id="queryByUserId" parameterType="Integer" resultMap="BaseResultMap">
+    select * from sys_token where user_id=#{userId}
+  </select>
 </mapper>

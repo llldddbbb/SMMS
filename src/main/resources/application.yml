@@ -22,7 +22,7 @@ spring:
         static-locations: classpath:/static/,classpath:/views/
 # Mybatis配置
 mybatis:
-    mapperLocations: classpath:mappers/**/*.xml
+    mapperLocations: classpath:mapper/**/*.xml
 #通用Mapper
 mapper:
     mappers: com.smms.common.util.MyMapper

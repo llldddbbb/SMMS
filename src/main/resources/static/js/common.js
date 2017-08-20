@@ -22,8 +22,7 @@ var baseURL="/";
 
 //登录token
 var token =localStorage.getItem("token");
-console.log(token);
-if(token == null){
+if(token == 'null'){
     parent.location.href=baseURL + "login.html";
 }
 

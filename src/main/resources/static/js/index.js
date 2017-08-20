@@ -19,16 +19,15 @@ var vm = new Vue({
     },
     methods: {
         getMenuList: function () {
-            //get请求
-            // $.getJSON(baseURL + 'menu/user',function (result) {
-            //     vm.menuList=result.menuList;
-            //     window.permissions=result.permissions;
-            // });
+            $.getJSON(baseURL + 'menu/user',function (result) {
+                vm.menuList=result.menuList;
+                window.permissions=result.permissions;
+            });
         },
         getUser: function() {
-            // $.getJSON(baseURL+ 'user/info',function(result){
-            //     vm.user=result.user;
-            // })
+            $.getJSON(baseURL+ 'sys/user/info',function(result){
+                vm.user=result.user;
+            })
         },
         logout:function() {
             localStorage.removeItem('token');

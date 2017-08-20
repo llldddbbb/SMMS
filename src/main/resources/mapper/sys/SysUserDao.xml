@@ -13,4 +13,11 @@
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+
+  <select id="queryByUsername" parameterType="String" resultMap="BaseResultMap">
+    select * from sys_user where username=#{username}
+  </select>
+
+
+
 </mapper>

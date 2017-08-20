@@ -8,4 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysTokenDao extends MyMapper<SysToken> {
 
     SysToken queryByToken(String token);
+
+    SysToken queryByUserId(Integer userId);
+
 }
