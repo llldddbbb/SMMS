@@ -18,6 +18,18 @@
     select * from sys_user where username=#{username}
   </select>
 
+  <select id="queryAllPerms"  resultType="String" >
+    select m.perms from sys_user_role ur
+			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id
+		where ur.user_id = #{userId}
+  </select>
 
+  <!-- 查询用户的所有菜单ID -->
+  <select id="queryAllMenuId" resultType="Integer">
+    select distinct rm.menu_id from sys_user_role ur
+    LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
+    where ur.user_id = #{userId}
+  </select>
 
 </mapper>

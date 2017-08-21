@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smms.modules.sys.dao.SysMenuDao">
+  <resultMap id="BaseResultMap" type="com.smms.modules.sys.entity.SysMenu">
+    <id column="menu_id" jdbcType="INTEGER" property="menuId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="perms" jdbcType="VARCHAR" property="perms" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+  </resultMap>
+
+  <select id="queryList" parameterType="Map" resultMap="BaseResultMap">
+    select * from sys_menu
+  </select>
+
+  <select id="queryListByParentId" parameterType="Integer" resultMap="BaseResultMap">
+    select * from sys_menu where parent_id=#{parentId}  order by order_num asc
+  </select>
+
+</mapper>

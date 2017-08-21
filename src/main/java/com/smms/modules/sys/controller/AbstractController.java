@@ -5,7 +5,11 @@ import com.smms.modules.sys.entity.SysUser;
 
 public abstract class AbstractController {
 
-    public SysUser getUser(){
+    protected SysUser getUser(){
         return (SysUser) ShiroUtils.getSubject().getPrincipal();
+    }
+
+    protected Integer getUserId() {
+        return getUser().getUserId();
     }
 }

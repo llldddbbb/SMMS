@@ -5,6 +5,8 @@ import com.smms.modules.sys.entity.SysUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SysUserService {
 
@@ -15,5 +17,7 @@ public class SysUserService {
         return sysUserDao.queryByUsername(username);
     }
 
-
+    public List<Integer> queryAllMenuId(Integer userId) {
+        return sysUserDao.queryAllMenuId(userId);
+    }
 }
