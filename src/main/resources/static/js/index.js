@@ -59,5 +59,34 @@ var vm = new Vue({
     created: function () {
         this.getMenuList();
         this.getUser();
+    },
+    updated: function(){
+        //路由
+        var router = new Router();
+        routerList(router, vm.menuList);
+        router.start();
     }
 });
+
+//替换url链接
+function routerList(router, menuList){
+    for(var key in menuList){
+        var menu = menuList[key];
+        if(menu.type == 0){
+            routerList(router, menu.list);
+        }else if(menu.type == 1){
+            router.add('#'+menu.url, function() {
+                var url = window.location.hash;
+
+                //替换iframe的url
+                vm.main = url.replace('#', '');
+
+                //导航菜单展开
+                $(".treeview-menu li").removeClass("active");
+                $("a[href='"+url+"']").parents("li").addClass("active");
+
+                vm.navTitle = $("a[href='"+url+"']").text();
+            });
+        }
+    }
+}

@@ -50,6 +50,15 @@ public class SysMenu {
     private List<?> list;
 
     /**
+     * 父菜单名称
+     */
+    @Transient
+    private String parentName;
+
+    @Transient
+    private Boolean open;
+
+    /**
      * @return menu_id
      */
     public Integer getMenuId() {
@@ -195,5 +204,21 @@ public class SysMenu {
 
     public void setList(List<?> list) {
         this.list = list;
+    }
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
     }
 }

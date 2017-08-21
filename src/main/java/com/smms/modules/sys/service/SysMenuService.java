@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -18,10 +19,11 @@ public class SysMenuService {
     @Autowired
     private SysUserService sysUserService;
 
-
+    //获取用户菜单
     public List<SysMenu> getUserMenuList(Integer userId) {
         //系统管理员，拥有最高权限
         if(userId == Constant.SUPER_ADMIN){
+            //所有菜单
             return getAllMenuList(null);
         }
 
@@ -29,7 +31,6 @@ public class SysMenuService {
         List<Integer> menuIdList = sysUserService.queryAllMenuId(userId);
         return getAllMenuList(menuIdList);
     }
-
 
     private List<SysMenu> getAllMenuList(List<Integer> menuIdList) {
         //查询根菜单列表
@@ -39,7 +40,7 @@ public class SysMenuService {
 
         return menuList;
     }
-    //递归查询
+    //递归查询：获取跟目录和菜单，未获取按钮
     private List<SysMenu> getMenuTreeList(List<SysMenu> menuList, List<Integer> menuIdList) {
         List<SysMenu> subSysMenuList=new ArrayList<>();
         for (SysMenu sysMenu : menuList) {
@@ -50,8 +51,6 @@ public class SysMenuService {
         }
         return subSysMenuList;
     }
-
-
     //查询用户的菜单
     public List<SysMenu> queryListParentId(Integer parentId, List<Integer> menuIdList) {
         List<SysMenu> menuList=queryListParentId(parentId);
@@ -72,4 +71,13 @@ public class SysMenuService {
         return sysMenuDao.queryListByParentId(parentId);
     }
 
+
+    //获取菜单列表
+    public List<SysMenu> queryList(HashMap<String, Object> param) {
+        return sysMenuDao.queryList(param);
+    }
+
+    public List<SysMenu> queryNotButtonList() {
+        return sysMenuDao.queryNotButtonList();
+    }
 }

@@ -13,11 +13,15 @@
   </resultMap>
 
   <select id="queryList" parameterType="Map" resultMap="BaseResultMap">
-    select * from sys_menu
+    select m.*,(select p.name from sys_menu p where p.menu_id = m.parent_id) as parentName from sys_menu m
   </select>
 
   <select id="queryListByParentId" parameterType="Integer" resultMap="BaseResultMap">
     select * from sys_menu where parent_id=#{parentId}  order by order_num asc
+  </select>
+
+  <select id="queryNotButtonList" resultMap="BaseResultMap">
+    select * from sys_menu where type != 2 order by order_num
   </select>
 
 </mapper>

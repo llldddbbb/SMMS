@@ -10,7 +10,9 @@ import java.util.List;
 @Mapper
 public interface SysMenuDao extends MyMapper<SysMenu> {
 
-    List<SysMenu> queryList(HashMap<Object, Object> param);
+    List<SysMenu> queryList(HashMap<String, Object> param);
 
     List<SysMenu> queryListByParentId(Integer parentId);
+
+    List<SysMenu> queryNotButtonList();
 }
