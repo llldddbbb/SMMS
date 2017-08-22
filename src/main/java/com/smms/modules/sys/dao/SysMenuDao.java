@@ -15,4 +15,8 @@ public interface SysMenuDao extends MyMapper<SysMenu> {
     List<SysMenu> queryListByParentId(Integer parentId);
 
     List<SysMenu> queryNotButtonList();
+
+    SysMenu queryById(Integer menuId);
+
+    Integer deleteBatch(Integer[] menuIds);
 }

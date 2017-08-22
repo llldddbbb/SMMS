@@ -24,4 +24,21 @@
     select * from sys_menu where type != 2 order by order_num
   </select>
 
+  <select id="queryById" resultMap="BaseResultMap">
+    select * from sys_menu where menu_id=#{menuId}
+  </select>
+
+  <delete id="deleteBatch">
+    delete from sys_menu where menu_id in
+    <foreach collection="array" item="menuId" open="(" separator="," close=")">
+      #{menuId}
+    </foreach>
+    ;
+    delete from sys_role_menu where menu_id in
+    <foreach collection="array" item="menuId" open="(" separator="," close=")">
+      #{menuId}
+    </foreach>
+
+  </delete>
+
 </mapper>

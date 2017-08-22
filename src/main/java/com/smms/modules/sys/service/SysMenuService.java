@@ -80,4 +80,20 @@ public class SysMenuService {
     public List<SysMenu> queryNotButtonList() {
         return sysMenuDao.queryNotButtonList();
     }
+
+    public SysMenu queryById(Integer menuId) {
+        return sysMenuDao.queryById(menuId);
+    }
+
+    public Integer save(SysMenu sysMenu) {
+        return sysMenuDao.insert(sysMenu);
+    }
+
+    public Integer update(SysMenu sysMenu){
+        return sysMenuDao.updateByPrimaryKeySelective(sysMenu);
+    }
+
+    public Integer deleteBatch(Integer[] menuIds) {
+        return sysMenuDao.deleteBatch(menuIds);
+    }
 }

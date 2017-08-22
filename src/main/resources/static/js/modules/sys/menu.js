@@ -32,7 +32,7 @@ var vm = new Vue({
                 ztree = $.fn.zTree.init($("#menuTree"), setting, r.menuList);
                 var node = ztree.getNodeByParam("menuId", vm.menu.parentId);
                 ztree.selectNode(node);
-
+                //将选择的节点填进上级菜单
                 vm.menu.parentName = node.name;
             })
         },
