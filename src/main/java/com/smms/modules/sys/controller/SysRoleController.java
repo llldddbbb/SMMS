@@ -13,6 +13,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,24 @@ public class SysRoleController extends AbstractController{
 
         return Result.ok();
     }
+
+    /**
+     * 角色列表
+     */
+    @RequestMapping("/select")
+    @RequiresPermissions("sys:role:select")
+    public Result select(){
+        Map<String, Object> map = new HashMap<>();
+
+        //如果不是超级管理员，则只查询自己所拥有的角色列表
+        if(getUserId() != Constant.SUPER_ADMIN){
+            map.put("createUserId", getUserId());
+        }
+        List<SysRole> list = sysRoleService.queryList(map);
+
+        return Result.ok().put("list", list);
+    }
+
 
 
 }

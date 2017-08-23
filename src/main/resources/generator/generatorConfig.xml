@@ -39,7 +39,7 @@
                              type="XMLMAPPER"/>
 
         <!-- 指定数据库表 -->
-        <table schema="MYSQL" tableName="sys_role_menu" mapperName="SysRoleMenuDao">
+        <table schema="MYSQL" tableName="sys_user_role" mapperName="SysUserRoleDao">
             <!--true使用原列名，false:下划线转换成驼峰形式-->
             <property name="useActualColumnNames" value="false" />
         </table>

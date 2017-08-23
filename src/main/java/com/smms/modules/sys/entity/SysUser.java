@@ -1,24 +1,31 @@
 package com.smms.modules.sys.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.smms.common.validator.group.AddGroup;
+import com.smms.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.Date;
+import java.util.List;
+import javax.persistence.*;
 
 @Table(name = "sys_user")
 public class SysUser {
     @Id
     @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
     /**
      * 用户名
      */
+    @NotBlank(message="用户名不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String username;
 
     /**
      * 密码
      */
+    @NotBlank(message="密码不能为空", groups = AddGroup.class)
     private String password;
 
     /**
@@ -29,20 +36,22 @@ public class SysUser {
     /**
      * 邮箱
      */
+    @NotBlank(message="邮箱不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    @Email(message="邮箱格式不正确", groups = {AddGroup.class, UpdateGroup.class})
     private String email;
 
     /**
-     * 手机
+     * 手机号
      */
     private String mobile;
 
     /**
-     * 状态：0暂停 1正常
+     * 状态  0：禁用   1：正常
      */
     private Byte status;
 
     /**
-     * 创建者Id
+     * 创建者ID
      */
     @Column(name = "create_user_id")
     private Integer createUserId;
@@ -52,6 +61,12 @@ public class SysUser {
      */
     @Column(name = "create_time")
     private Date createTime;
+
+    /**
+     * 角色ID列表
+     */
+    @Transient
+    private List<Long> roleIdList;
 
     /**
      * @return user_id
@@ -140,54 +155,54 @@ public class SysUser {
     }
 
     /**
-     * 获取手机
+     * 获取手机号
      *
-     * @return mobile - 手机
+     * @return mobile - 手机号
      */
     public String getMobile() {
         return mobile;
     }
 
     /**
-     * 设置手机
+     * 设置手机号
      *
-     * @param mobile 手机
+     * @param mobile 手机号
      */
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
     /**
-     * 获取状态：0暂停 1正常
+     * 获取状态  0：禁用   1：正常
      *
-     * @return status - 状态：0暂停 1正常
+     * @return status - 状态  0：禁用   1：正常
      */
     public Byte getStatus() {
         return status;
     }
 
     /**
-     * 设置状态：0暂停 1正常
+     * 设置状态  0：禁用   1：正常
      *
-     * @param status 状态：0暂停 1正常
+     * @param status 状态  0：禁用   1：正常
      */
     public void setStatus(Byte status) {
         this.status = status;
     }
 
     /**
-     * 获取创建者Id
+     * 获取创建者ID
      *
-     * @return create_user_id - 创建者Id
+     * @return create_user_id - 创建者ID
      */
     public Integer getCreateUserId() {
         return createUserId;
     }
 
     /**
-     * 设置创建者Id
+     * 设置创建者ID
      *
-     * @param createUserId 创建者Id
+     * @param createUserId 创建者ID
      */
     public void setCreateUserId(Integer createUserId) {
         this.createUserId = createUserId;
@@ -209,5 +224,13 @@ public class SysUser {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public List<Long> getRoleIdList() {
+        return roleIdList;
+    }
+
+    public void setRoleIdList(List<Long> roleIdList) {
+        this.roleIdList = roleIdList;
     }
 }

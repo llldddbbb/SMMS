@@ -2,7 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smms.modules.sys.dao.SysUserDao">
   <resultMap id="BaseResultMap" type="com.smms.modules.sys.entity.SysUser">
-
+    <!--
+      WARNING - @mbg.generated
+    -->
     <id column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="username" jdbcType="VARCHAR" property="username" />
     <result column="password" jdbcType="VARCHAR" property="password" />
@@ -18,7 +20,7 @@
     select * from sys_user where username=#{username}
   </select>
 
-  <select id="queryAllPerms"  resultType="String" >
+  <select id="queryAllPerms" resultType="String">
     select m.perms from sys_user_role ur
 			LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
 			LEFT JOIN sys_menu m on rm.menu_id = m.menu_id
@@ -31,5 +33,42 @@
     LEFT JOIN sys_role_menu rm on ur.role_id = rm.role_id
     where ur.user_id = #{userId}
   </select>
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select * from sys_user
+    <where>
+      <if test="createUserId != null">
+        and `create_user_id` = #{createUserId}
+      </if>
+      <if test="username != null and username.trim() != ''">
+        and `username` like concat('%',#{username},'%')
+      </if>
+    </where>
+    <choose>
+      <when test="sidx != null and sidx.trim() != ''">
+        order by ${sidx} ${order}
+      </when>
+      <otherwise>
+        order by user_id desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryTotal" resultType="int">
+    select count(*) from sys_user
+    <where>
+      <if test="createUserId != null">
+        and `create_user_id` = #{createUserId}
+      </if>
+      <if test="username != null and username.trim() != ''">
+        and `username` like concat('%',#{username},'%')
+      </if>
+    </where>
+  </select>
+
+
 
 </mapper>
