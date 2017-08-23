@@ -66,7 +66,7 @@ public class SysUser {
      * 角色ID列表
      */
     @Transient
-    private List<Long> roleIdList;
+    private List<Integer> roleIdList;
 
     /**
      * @return user_id
@@ -226,11 +226,11 @@ public class SysUser {
         this.createTime = createTime;
     }
 
-    public List<Long> getRoleIdList() {
+    public List<Integer> getRoleIdList() {
         return roleIdList;
     }
 
-    public void setRoleIdList(List<Long> roleIdList) {
+    public void setRoleIdList(List<Integer> roleIdList) {
         this.roleIdList = roleIdList;
     }
 }

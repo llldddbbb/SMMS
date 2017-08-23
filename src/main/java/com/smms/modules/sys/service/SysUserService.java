@@ -7,6 +7,7 @@ import com.smms.modules.sys.dao.SysUserDao;
 import com.smms.modules.sys.entity.SysRole;
 import com.smms.modules.sys.entity.SysUser;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,5 +78,29 @@ public class SysUserService {
         if(!roleIdList.containsAll(user.getRoleIdList())){
             throw new MyException("新增用户所选角色，不是本人创建");
         }
+    }
+
+    public SysUser queryById(Integer userId) {
+        return sysUserDao.selectByPrimaryKey(userId);
+    }
+
+    public void update(SysUser user) {
+        if(StringUtils.isBlank(user.getPassword())){
+            user.setPassword(null);
+        }else{
+            user.setPassword(new Sha256Hash(user.getPassword(), user.getSalt()).toHex());
+        }
+        sysUserDao.updateByPrimaryKeySelective(user);
+
+        //检查角色是否越权
+        checkRole(user);
+
+        //保存用户与角色关系
+        sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+    }
+
+    @Transactional
+    public void deleteBatch(Integer[] userIds) {
+        sysUserDao.deleteBatch(userIds);
     }
 }

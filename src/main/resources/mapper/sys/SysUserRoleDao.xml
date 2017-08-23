@@ -28,4 +28,8 @@
       )
     </foreach>
   </insert>
+
+  <select id="queryRoleIdList" resultType="Integer">
+    select role_id from sys_user_role where user_id=#{userId}
+  </select>
 </mapper>

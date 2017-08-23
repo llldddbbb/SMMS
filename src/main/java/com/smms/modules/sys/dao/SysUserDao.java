@@ -18,4 +18,6 @@ public interface SysUserDao extends MyMapper<SysUser> {
     List<SysUser> queryList(Map<String, Object> param);
 
     int queryTotal(Map<String, Object> param);
+
+    int deleteBatch(Integer[] userIds);
 }

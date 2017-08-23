@@ -7,14 +7,14 @@ import com.smms.common.entity.Result;
 import com.smms.common.util.PageUtils;
 import com.smms.common.validator.ValidatorUtils;
 import com.smms.common.validator.group.AddGroup;
+import com.smms.common.validator.group.UpdateGroup;
 import com.smms.modules.sys.entity.SysUser;
+import com.smms.modules.sys.service.SysUserRoleService;
 import com.smms.modules.sys.service.SysUserService;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +25,9 @@ public class SysUserController extends AbstractController{
 
     @Autowired
     private SysUserService sysUserService;
+
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
     @RequestMapping("/info")
     public Result getUserInfo(){
@@ -63,6 +66,56 @@ public class SysUserController extends AbstractController{
 
         user.setCreateUserId(getUserId());
         sysUserService.save(user);
+
+        return Result.ok();
+    }
+
+    /**
+     * 修改用户
+     */
+    @SysLog("修改用户")
+    @RequestMapping("/update")
+    @RequiresPermissions("sys:user:update")
+    public Result update(@RequestBody SysUser user){
+        ValidatorUtils.validateEntity(user, UpdateGroup.class);
+
+        user.setCreateUserId(getUserId());
+        sysUserService.update(user);
+
+        return Result.ok();
+    }
+
+    /**
+     * 用户信息
+     */
+    @RequestMapping("/info/{userId}")
+    @RequiresPermissions("sys:user:info")
+    public Result info(@PathVariable("userId") Integer userId){
+        SysUser user = sysUserService.queryById(userId);
+
+        //获取用户所属的角色列表
+        List<Integer> roleIdList = sysUserRoleService.queryRoleIdList(userId);
+        user.setRoleIdList(roleIdList);
+
+        return Result.ok().put("user", user);
+    }
+
+    /**
+     * 删除用户
+     */
+    @SysLog("删除用户")
+    @RequestMapping("/delete")
+    @RequiresPermissions("sys:user:delete")
+    public Result delete(@RequestBody Integer[] userIds){
+        if(ArrayUtils.contains(userIds, 1L)){
+            return Result.error("系统管理员不能删除");
+        }
+
+        if(ArrayUtils.contains(userIds, getUserId())){
+            return Result.error("当前用户不能删除");
+        }
+
+        sysUserService.deleteBatch(userIds);
 
         return Result.ok();
     }
