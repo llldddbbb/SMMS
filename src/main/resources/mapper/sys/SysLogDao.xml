@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smms.modules.sys.dao.SysLogDao">
+  <resultMap id="BaseResultMap" type="com.smms.modules.sys.entity.SysLog">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="operation" jdbcType="VARCHAR" property="operation" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="params" jdbcType="VARCHAR" property="params" />
+    <result column="ip" jdbcType="VARCHAR" property="ip" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <select id="queryList" resultMap="BaseResultMap" parameterType="Map">
+    select * from sys_log
+    <where>
+      <if test="key != null and key.trim() != ''">
+        `username` like concat('%',#{key},'%') or `operation` like concat('%',#{key},'%')
+      </if>
+    </where>
+    <choose>
+      <when test="sidx != null and sidx.trim() != ''">
+        order by ${sidx} ${order}
+      </when>
+      <otherwise>
+        order by id desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryTotal" parameterType="Map" resultType="Integer">
+    select count(*) from sys_log
+    <where>
+      <if test="key != null and key.trim() != ''">
+        `username` like concat('%',#{key},'%') or `operation` like concat('%',#{key},'%')
+      </if>
+    </where>
+  </select>
+</mapper>

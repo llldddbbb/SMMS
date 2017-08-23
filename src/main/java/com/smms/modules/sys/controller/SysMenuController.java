@@ -1,5 +1,6 @@
 package com.smms.modules.sys.controller;
 
+import com.smms.common.annotation.SysLog;
 import com.smms.common.entity.Constant;
 import com.smms.common.entity.Result;
 import com.smms.common.exception.MyException;
@@ -74,6 +75,7 @@ public class SysMenuController extends AbstractController{
         return Result.ok().put("menu", menu);
     }
 
+    @SysLog("保存菜单")
     @RequestMapping("/save")
     @RequiresPermissions("sys:menu:save")
     public Result save(@RequestBody SysMenu sysMenu){
@@ -82,6 +84,7 @@ public class SysMenuController extends AbstractController{
         return Result.ok();
     }
 
+    @SysLog("修改菜单")
     @RequestMapping("/update")
     @RequiresPermissions("sys:menu:update")
     public Result update(@RequestBody SysMenu sysMenu){
@@ -90,6 +93,7 @@ public class SysMenuController extends AbstractController{
         return Result.ok();
     }
 
+    @SysLog("删除菜单")
     @RequestMapping("/delete")
     @RequiresPermissions("sys:menu:delete")
     public Result delete(Integer menuId){

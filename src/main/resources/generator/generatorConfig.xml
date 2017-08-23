@@ -12,7 +12,7 @@
 
         <!--使用通用Mapper插件，指定MyMapper路径-->
         <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
-            <property name="mappers" value="com.smms.common.util.MyMapper"/>
+            <property name="mappers" value="com.smms.common.entity.MyMapper"/>
         </plugin>
 
         <commentGenerator>
@@ -39,7 +39,7 @@
                              type="XMLMAPPER"/>
 
         <!-- 指定数据库表 -->
-        <table schema="MYSQL" tableName="sys_menu" mapperName="SysMenuDao">
+        <table schema="MYSQL" tableName="sys_log" mapperName="SysLogDao">
             <!--true使用原列名，false:下划线转换成驼峰形式-->
             <property name="useActualColumnNames" value="false" />
         </table>

@@ -25,7 +25,7 @@ mybatis:
     mapperLocations: classpath:mapper/**/*.xml
 #通用Mapper
 mapper:
-    mappers: com.smms.common.util.MyMapper
+    mappers: com.smms.common.entity.MyMapper
     not-empty: false
     identity: MYSQL
 #pageHelper
