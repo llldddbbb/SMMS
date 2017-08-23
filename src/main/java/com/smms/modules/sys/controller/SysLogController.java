@@ -11,11 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
 
-@Controller
+@RestController
 @RequestMapping("/sys/log")
 public class SysLogController {
 
@@ -25,7 +26,6 @@ public class SysLogController {
     /**
      * 列表
      */
-    @ResponseBody
     @RequestMapping("/list")
     @RequiresPermissions("sys:log:list")
     public Result list(@RequestParam Map<String, Object> params){

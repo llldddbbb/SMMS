@@ -29,6 +29,25 @@ public class SysMenuController extends AbstractController{
     @Autowired
     private SysMenuService sysMenuService;
 
+    /**
+     * 角色授权菜单
+     */
+    @RequestMapping("/perms")
+    @RequiresPermissions("sys:menu:perms")
+    public Result perms(){
+        //查询列表数据
+        List<SysMenu> menuList = null;
+
+        //只有超级管理员，才能查看所有管理员列表
+        if(getUserId() == Constant.SUPER_ADMIN){
+            menuList = sysMenuService.queryList(new HashMap<String, Object>());
+        }else{
+            menuList = sysMenuService.queryUserList(getUserId());
+        }
+
+        return Result.ok().put("menuList", menuList);
+    }
+
     //侧边导航获取用户菜单
     @RequestMapping("/user")
     public Result getMenu(){

@@ -27,7 +27,7 @@ public class Query extends LinkedHashMap<String,Object>{
         String sidx = (String)params.get("sidx");
         String order = (String)params.get("order");
         if(!StringUtils.isEmpty(sidx)){
-            this.put("sidx", com.smms.common.util.StringUtils.underscoreName(sidx));
+            this.put("sidx",  SqlFilter.sqlInject(sidx));
         }
         if(!StringUtils.isEmpty(order)){
             this.put("order", SqlFilter.sqlInject(order));

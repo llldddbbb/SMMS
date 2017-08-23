@@ -96,4 +96,8 @@ public class SysMenuService {
     public Integer deleteBatch(Integer[] menuIds) {
         return sysMenuDao.deleteBatch(menuIds);
     }
+
+    public List<SysMenu> queryUserList(Integer userId) {
+        return sysMenuDao.queryUserList(userId);
+    }
 }

@@ -9,7 +9,7 @@ $(function () {
 			{ label: '请求方法', name: 'method', width: 150 }, 			
 			{ label: '请求参数', name: 'params', width: 80 }, 			
 			{ label: 'IP地址', name: 'ip', width: 70 }, 			
-			{ label: '创建时间', name: 'createTime', width: 90 }
+			{ label: '创建时间', name: 'createTime', index: "create_time",width: 90 }
         ],
 		viewrecords: true,
         height: 385,
