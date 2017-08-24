@@ -63,4 +63,8 @@
       #{roleId}
     </foreach>
   </delete>
+
+  <select id="queryRoleIdList" resultType="Integer">
+    select role_id from sys_role where create_user_id=#{createUserId}
+  </select>
 </mapper>

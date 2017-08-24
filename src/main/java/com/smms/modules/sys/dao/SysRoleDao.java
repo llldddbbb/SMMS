@@ -16,4 +16,6 @@ public interface SysRoleDao extends MyMapper<SysRole> {
     List<SysRole> queryList(Map<String, Object> param);
 
     void deleteBatch(Integer[] roleIds);
+
+    List<Integer> queryRoleIdList(Integer createUserId);
 }

@@ -7,6 +7,7 @@ import com.smms.modules.sys.entity.SysRole;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.beans.Transient;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -66,5 +67,20 @@ public class SysRoleService {
 
     public void deleteBatch(Integer[] roleIds) {
         sysRoleDao.deleteBatch(roleIds);
+    }
+
+    public List<Integer> queryRoleIdList(Integer createUserId) {
+        return sysRoleDao.queryRoleIdList(createUserId);
+    }
+
+    @Transient
+    public void update(SysRole role) {
+        sysRoleDao.updateByPrimaryKey(role);
+
+        //检查权限是否越权
+        checkPrems(role);
+
+        //更新角色与菜单关系
+        sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
     }
 }

@@ -64,6 +64,21 @@ public class SysRoleController extends AbstractController{
     }
 
     /**
+     * 修改角色
+     */
+    @SysLog("修改角色")
+    @RequestMapping("/update")
+    @RequiresPermissions("sys:role:update")
+    public Result update(@RequestBody SysRole role){
+        ValidatorUtils.validateEntity(role);
+
+        role.setCreateUserId(getUserId());
+        sysRoleService.update(role);
+
+        return Result.ok();
+    }
+
+    /**
      * 角色信息
      */
     @RequestMapping("/info/{roleId}")
