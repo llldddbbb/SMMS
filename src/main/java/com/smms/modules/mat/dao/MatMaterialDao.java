@@ -14,4 +14,6 @@ public interface MatMaterialDao extends MyMapper<MatMaterial> {
     List<SysUser> queryList(Map<String, Object> map);
 
     int queryTotal(Map<String, Object> map);
+
+    void deleteBatch(Integer[] matIds);
 }

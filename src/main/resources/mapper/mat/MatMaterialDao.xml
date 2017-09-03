@@ -57,4 +57,11 @@
       </if>
     </where>
   </select>
+
+  <delete id="deleteBatch" >
+    delete from mat_material where mat_id in
+    <foreach collection="array" item="matId" open="(" close=")" separator=",">
+      #{matId}
+    </foreach>
+  </delete>
 </mapper>

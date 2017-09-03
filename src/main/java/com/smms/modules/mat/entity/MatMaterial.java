@@ -1,10 +1,17 @@
 package com.smms.modules.mat.entity;
 
+import com.smms.common.validator.group.AddGroup;
+import com.smms.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "mat_material")
 public class MatMaterial {
+
     @Id
     @Column(name = "mat_id")
     private Integer matId;
@@ -12,6 +19,7 @@ public class MatMaterial {
     /**
      * 部件的名称
      */
+    @NotBlank(message="部件名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String item;
 
     /**
