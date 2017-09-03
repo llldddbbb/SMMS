@@ -29,6 +29,9 @@
       <if test="categoryId != null">
         and `category_id` = #{categoryId}
       </if>
+      <if test="item != null and item!=''">
+        and `item` like concat('%',#{item},'%')
+      </if>
     </where>
     <choose>
       <when test="sidx != null and sidx.trim() != ''">
@@ -48,6 +51,9 @@
     <where>
       <if test="categoryId != null">
         and `category_id` = #{categoryId}
+      </if>
+      <if test="item != null and item!=''">
+        and `item` like concat('%',#{item},'%')
       </if>
     </where>
   </select>

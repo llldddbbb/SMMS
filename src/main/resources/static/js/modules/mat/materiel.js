@@ -10,6 +10,9 @@ var vm = new Vue({
             assemblyDrawing3d:'',
             technicalNote:'',
             relatedExperimentReport:''
+        },
+        q:{
+            item:null
         }
     },
     methods: {
@@ -20,6 +23,7 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData:{'item': vm.q.item},
                 page: page
             }).trigger("reloadGrid");
         }
