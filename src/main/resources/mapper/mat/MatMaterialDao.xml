@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smms.modules.mat.dao.MatMaterialDao">
+  <resultMap id="BaseResultMap" type="com.smms.modules.mat.entity.MatMaterial">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="mat_id" jdbcType="INTEGER" property="matId" />
+    <result column="item" jdbcType="VARCHAR" property="item" />
+    <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
+    <result column="price" jdbcType="VARCHAR" property="price" />
+    <result column="website" jdbcType="VARCHAR" property="website" />
+    <result column="contact" jdbcType="VARCHAR" property="contact" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
+    <result column="product_picture" jdbcType="VARCHAR" property="productPicture" />
+    <result column="exploded_view" jdbcType="VARCHAR" property="explodedView" />
+    <result column="assembly_drawing_2d" jdbcType="VARCHAR" property="assemblyDrawing2d" />
+    <result column="assembly_drawing_3d" jdbcType="VARCHAR" property="assemblyDrawing3d" />
+    <result column="technical_note" jdbcType="VARCHAR" property="technicalNote" />
+    <result column="related_experiment_report" jdbcType="VARCHAR" property="relatedExperimentReport" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select * from mat_material
+    <where>
+      <if test="categoryId != null">
+        and `category_id` = #{categoryId}
+      </if>
+    </where>
+    <choose>
+      <when test="sidx != null and sidx.trim() != ''">
+        order by ${sidx} ${order}
+      </when>
+      <otherwise>
+        order by mat_id desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryTotal" resultType="int">
+    select count(*) from mat_material
+    <where>
+      <if test="categoryId != null">
+        and `category_id` = #{categoryId}
+      </if>
+    </where>
+  </select>
+</mapper>

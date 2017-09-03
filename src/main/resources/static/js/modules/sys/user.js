@@ -42,7 +42,7 @@ $(function () {
 });
 
 var vm = new Vue({
-	el:'#rrapp',
+	el:'#app',
 	data:{
 		q:{
 			username: null

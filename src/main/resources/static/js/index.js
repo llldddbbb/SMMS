@@ -60,6 +60,7 @@ var vm = new Vue({
         this.getMenuList();
         this.getUser();
     },
+    //data发生变化渲染更新视图之后触发
     updated: function(){
         //路由
         var router = new Router();

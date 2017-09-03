@@ -70,11 +70,13 @@ public class ShiroConfig {
         filterMap.put("/**/*.css", "anon");
         filterMap.put("/**/*.js", "anon");
         filterMap.put("/**/*.html", "anon");
-        filterMap.put("/fonts/**", "anon");
+        filterMap.put("/fonts/**/**", "anon");
+        filterMap.put("/productPicture/**", "anon");
         filterMap.put("/images/**", "anon");
         filterMap.put("/plugins/**", "anon");
         filterMap.put("/favicon.ico", "anon");
         filterMap.put("/captcha.jpg", "anon");
+        filterMap.put("/mat/material/productPicture/**", "anon");
         filterMap.put("/", "anon");
         filterMap.put("/**", "oauth2");
         shiroFilter.setFilterChainDefinitionMap(filterMap);

@@ -29,17 +29,17 @@
         </jdbcConnection>
 
         <!-- 生成PO类的位置 -->
-        <javaModelGenerator targetPackage="com.smms.modules.sys.entity" targetProject="src/main/java"/>
+        <javaModelGenerator targetPackage="com.smms.modules.mat.entity" targetProject="src/main/java"/>
 
         <!-- mapper映射文件生成的位置 -->
-        <sqlMapGenerator targetPackage="mapper/sys" targetProject="src/main/resources"/>
+        <sqlMapGenerator targetPackage="mapper/mat" targetProject="src/main/resources"/>
 
         <!-- targetPackage：mapper接口生成的位置 -->
-        <javaClientGenerator targetPackage="com.smms.modules.sys.dao" targetProject="src/main/java"
+        <javaClientGenerator targetPackage="com.smms.modules.mat.dao" targetProject="src/main/java"
                              type="XMLMAPPER"/>
 
         <!-- 指定数据库表 -->
-        <table schema="MYSQL" tableName="sys_user_role" mapperName="SysUserRoleDao">
+        <table schema="MYSQL" tableName="mat_material" mapperName="MatMaterialDao">
             <!--true使用原列名，false:下划线转换成驼峰形式-->
             <property name="useActualColumnNames" value="false" />
         </table>

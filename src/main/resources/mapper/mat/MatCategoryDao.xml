@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smms.modules.mat.dao.MatCategoryDao">
+  <resultMap id="BaseResultMap" type="com.smms.modules.mat.entity.MatCategory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+  </resultMap>
+</mapper>
