@@ -20,10 +20,28 @@ var vm = new Vue({
                 page: page
             }).trigger("reloadGrid");
         },
-        add: function () {
-            vm.showList = false;
-            vm.title = "新增物料";
-            vm.projectId = getUrlKey('projectId');
+        del: function () {
+            var matIds = getSelectedRows();
+            if (matIds == null) {
+                return;
+            }
+            confirm('确定要移除选中的记录？', function () {
+                $.ajax({
+                    type: "POST",
+                    url: baseURL + "mat/project/remove",
+                    contentType: "application/json",
+                    data: JSON.stringify(matIds),
+                    success: function (r) {
+                        if (r.code == 0) {
+                            alert('操作成功', function () {
+                                vm.reload();
+                            });
+                        } else {
+                            alert(r.msg);
+                        }
+                    }
+                });
+            });
         }
     }
 

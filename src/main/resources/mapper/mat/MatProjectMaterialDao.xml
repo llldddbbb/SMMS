@@ -38,4 +38,11 @@
     </where>
   </select>
 
+  <delete id="deleteBathByMatId">
+    delete from mat_project_material where mat_id in
+    <foreach collection="array" item="matId" open="(" close=")" separator=",">
+      #{matId}
+    </foreach>
+  </delete>
+
 </mapper>

@@ -22,4 +22,8 @@ public class MatProjectMaterialService {
     public int queryTotal(Map map) {
         return matProjectMaterialDao.queryTotal(map);
     }
+
+    public void removeMaterial(Integer[] matIds) {
+        matProjectMaterialDao.deleteBathByMatId(matIds);
+    }
 }

@@ -6,10 +6,7 @@ import com.smms.common.util.PageUtils;
 import com.smms.modules.mat.entity.MatMaterial;
 import com.smms.modules.mat.service.MatProjectMaterialService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +28,12 @@ public class MatProjectController {
         int total = matProjectMaterialService.queryTotal(query);
         PageUtils pageUtil = new PageUtils(materialList, total, query.getLimit(), query.getPage());
         return Result.ok().put("page", pageUtil);
+    }
+
+    @RequestMapping("/remove")
+    public Result removeMaterial(@RequestBody Integer[] matIds){
+        matProjectMaterialService.removeMaterial(matIds);
+        return Result.ok();
     }
 
 }

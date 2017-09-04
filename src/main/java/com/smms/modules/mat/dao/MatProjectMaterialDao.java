@@ -14,4 +14,6 @@ public interface MatProjectMaterialDao extends MyMapper<MatProjectMaterial> {
     List<MatMaterial> queryList(Map map);
 
     int queryTotal(Map map);
+
+    void deleteBathByMatId(Integer[] matIds);
 }
