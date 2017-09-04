@@ -24,6 +24,7 @@ spring:
 # Mybatis配置
 mybatis:
     mapperLocations: classpath:mapper/**/*.xml
+    configLocation: classpath:mybatis.xml
 #通用Mapper
 mapper:
     mappers: com.smms.common.entity.MyMapper

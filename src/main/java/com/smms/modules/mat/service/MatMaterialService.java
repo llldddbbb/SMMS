@@ -17,7 +17,7 @@ public class MatMaterialService {
     @Autowired
     private MatMaterialDao matMaterialDao;
 
-    public List<SysUser> queryList(Map<String,Object> map) {
+    public List<MatMaterial> queryList(Map<String,Object> map) {
         return matMaterialDao.queryList(map);
     }
 

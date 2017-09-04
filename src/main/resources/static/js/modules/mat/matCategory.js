@@ -29,7 +29,7 @@ var vm = new Vue({
             vm.showList = false;
             vm.title = "新增物料";
             vm.material = {
-                categoryId: getUrlKey('categoryId'),
+                categoryId: getUrlKey('categoryId')
             };
             vm.file={}
         },
@@ -96,7 +96,7 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'mat/material/list/category/' + vm.material.categoryId,
+        url: baseURL + 'mat/category/list/category/' + vm.material.categoryId,
         datatype: "json",
         colModel: [
             {label: '编号', name: 'matId', index: "mat_id", width: 20, key: true},
@@ -247,7 +247,7 @@ new AjaxUpload('#uploadProductPicture', {
 });
 
 function showFile(matId) {
-    var url = "mat/material/file/info/" + matId;
+    var url = "mat/material/info/" + matId;
     $.ajax({
         type: "GET",
         url: baseURL + url,

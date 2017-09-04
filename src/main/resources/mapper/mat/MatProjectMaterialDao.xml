@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smms.modules.mat.dao.MatProjectMaterialDao">
+  <resultMap id="BaseResultMap" type="com.smms.modules.mat.entity.MatProjectMaterial">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="project_id" jdbcType="INTEGER" property="projectId" />
+    <result column="mat_id" jdbcType="INTEGER" property="matId" />
+  </resultMap>
+
+  <select id="queryList" resultType="com.smms.modules.mat.entity.MatMaterial">
+    SELECT m.* FROM mat_material m
+    LEFT JOIN mat_project_material pm
+    ON m.`mat_id`=pm.`mat_id`
+    <where>
+      <if test="projectId!=null">
+        and pm.`project_id`=#{projectId}
+      </if>
+      <if test="item!=null and item !=''">
+        and item like concat('%',#{item},'%')
+      </if>
+    </where>
+  </select>
+
+  <select id="queryTotal" resultType="Integer">
+    SELECT count(*) FROM mat_material m
+    LEFT JOIN mat_project_material pm
+    ON m.`mat_id`=pm.`mat_id`
+    <where>
+      <if test="projectId!=null">
+        and pm.`project_id`=#{projectId}
+      </if>
+      <if test="item!=null and item !=''">
+        and item like concat('%',#{item},'%')
+      </if>
+    </where>
+  </select>
+
+</mapper>

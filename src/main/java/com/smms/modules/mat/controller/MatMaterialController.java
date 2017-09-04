@@ -1,16 +1,13 @@
 package com.smms.modules.mat.controller;
 
-import com.smms.common.entity.Query;
 import com.smms.common.entity.Result;
 import com.smms.common.exception.MyException;
 import com.smms.common.util.DateUtils;
-import com.smms.common.util.PageUtils;
 import com.smms.common.validator.ValidatorUtils;
 import com.smms.common.validator.group.AddGroup;
 import com.smms.common.validator.group.UpdateGroup;
 import com.smms.modules.mat.entity.MatMaterial;
 import com.smms.modules.mat.service.MatMaterialService;
-import com.smms.modules.sys.entity.SysUser;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,8 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/mat/material")
@@ -34,24 +29,10 @@ public class MatMaterialController {
     @Value("${PRODUCT_PICTURE_PATH}")
     private String PRODUCT_PICTURE_PATH;
 
-
-    @RequestMapping("/list/category/{categoryId}")
-    public Result listByCategoryId(@RequestParam Map<String, Object> params, @PathVariable Integer categoryId) {
-        //查询列表数据
-        params.put("categoryId", categoryId);
-        Query query = new Query(params);
-        List<SysUser> userList = matMaterialService.queryList(query);
-        int total = matMaterialService.queryTotal(query);
-
-        PageUtils pageUtil = new PageUtils(userList, total, query.getLimit(), query.getPage());
-
-        return Result.ok().put("page", pageUtil);
-    }
-
-    @RequestMapping("/file/info/{matId}")
-    public Result fileInfo(@PathVariable Integer matId) {
-        MatMaterial matMaterial = matMaterialService.getInfoById(matId);
-        return Result.ok().put("data", matMaterial);
+    @RequestMapping("/info/{matId}")
+    public Result getMaterial(@PathVariable Integer matId) {
+        MatMaterial material = matMaterialService.getInfoById(matId);
+        return Result.ok().put("material", material);
     }
 
     @RequestMapping("/productPicture")
@@ -70,12 +51,6 @@ public class MatMaterialController {
         output.flush();
         output.close();
         input.close();
-    }
-
-    @RequestMapping("/info/{matId}")
-    public Result getMaterial(@PathVariable Integer matId) {
-        MatMaterial material = matMaterialService.getInfoById(matId);
-        return Result.ok().put("material", material);
     }
 
     @RequestMapping("/save")
@@ -99,7 +74,7 @@ public class MatMaterialController {
     }
 
     @RequestMapping("/upload/file")
-    public Result uploadFile(@RequestParam("file")MultipartFile file,String type) throws Exception{
+    public Result uploadFile(@RequestParam("file")MultipartFile file, String type) throws Exception{
         if (file.isEmpty()) {
             throw new MyException("上传文件不能为空");
         }
@@ -130,5 +105,4 @@ public class MatMaterialController {
         FileUtils.writeByteArrayToFile(new File(baseFilePath+fileName),file.getBytes());
         return Result.ok().put("url", fileName);
     }
-
 }
