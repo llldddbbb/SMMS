@@ -3,6 +3,9 @@ package com.smms.modules.mat.controller;
 import com.smms.common.entity.Query;
 import com.smms.common.entity.Result;
 import com.smms.common.util.PageUtils;
+import com.smms.common.validator.ValidatorUtils;
+import com.smms.common.validator.group.AddGroup;
+import com.smms.common.validator.group.UpdateGroup;
 import com.smms.modules.mat.entity.MatCategory;
 import com.smms.modules.mat.entity.MatMaterial;
 import com.smms.modules.mat.service.MatCategoryService;
@@ -61,6 +64,7 @@ public class MatCategoryController {
 
     @RequestMapping("/save")
     public Result save(@RequestBody MatCategory category) {
+        ValidatorUtils.validateEntity(category, AddGroup.class);
         matCategoryService.save(category);
         return Result.ok();
     }
@@ -73,8 +77,14 @@ public class MatCategoryController {
 
     @RequestMapping("/update")
     public Result update(@RequestBody MatCategory category){
+        ValidatorUtils.validateEntity(category, UpdateGroup.class);
         matCategoryService.update(category);
         return Result.ok();
+    }
+
+    @RequestMapping("/delete")
+    public Result delete(Integer categoryId){
+        return matCategoryService.deleteCategory(categoryId);
     }
 
 }

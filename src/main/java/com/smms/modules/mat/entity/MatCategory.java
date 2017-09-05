@@ -1,5 +1,9 @@
 package com.smms.modules.mat.entity;
 
+import com.smms.common.validator.group.AddGroup;
+import com.smms.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -13,6 +17,7 @@ public class MatCategory {
     @Column(name = "parent_id")
     private Integer parentId;
 
+    @NotBlank(message="类别名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
     private String name;
 
     private Integer orderNum;

@@ -58,7 +58,7 @@ var vm = new Vue({
         },
         del: function () {
             var menuId = getMenuId();
-            if(menuId == null){
+            if(menuId == false){
                 return ;
             }
 

@@ -1,16 +1,17 @@
 package com.smms.modules.mat.service;
 
+import com.smms.common.entity.Result;
 import com.smms.common.exception.MyException;
 import com.smms.modules.mat.dao.MatCategoryDao;
 import com.smms.modules.mat.entity.MatCategory;
 import com.smms.modules.sys.entity.SysMenu;
 import com.smms.modules.sys.service.SysMenuService;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class MatCategoryService {
         return matCategoryDao.selectByPrimaryKey(categoryId);
     }
 
+    @Transactional
     public void update(MatCategory category) {
         //判断父级是否有子菜单
         this.updateMenuType(category);
@@ -103,4 +105,23 @@ public class MatCategoryService {
         }
     }
 
+    @Transactional
+    public Result deleteCategory(Integer categoryId) {
+        //判断是否是父级菜单
+        List<SysMenu> sysMenuList = sysMenuService.queryListParentId(categoryId);
+        if(sysMenuList.size()>0){
+            return Result.error("删除失败，请先删除该类别下的子类别");
+        }
+        //判断该类别下是否有物料
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("categoryId",categoryId);
+        if(matMaterialService.queryList(map).size()>0){
+            return Result.error("删除失败，请先删除该类别下的物料");
+        }
+        //删除类别
+        matCategoryDao.deleteByPrimaryKey(categoryId);
+        //删除菜单
+        sysMenuService.deleteBatch(new Integer[]{categoryId});
+        return Result.ok();
+    }
 }

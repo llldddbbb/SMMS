@@ -56,7 +56,7 @@ var vm = new Vue({
         },
         del: function () {
             var categoryId = getcategoryId();
-            if (categoryId == null) {
+            if (categoryId == false) {
                 return;
             }
 
