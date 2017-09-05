@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.smms.modules.mat.dao.MatCategoryDao">
   <resultMap id="BaseResultMap" type="com.smms.modules.mat.entity.MatCategory">
-    <!--
-      WARNING - @mbg.generated
-    -->
     <id column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="parent_id" jdbcType="INTEGER" property="parentId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+
+  <select id="queryList" resultMap="BaseResultMap">
+    SELECT c.*,(SELECT p.name FROM mat_category p WHERE c.`parent_id`= p.`category_id`)AS parentName FROM mat_category c order by c.order_num asc
+  </select>
 </mapper>

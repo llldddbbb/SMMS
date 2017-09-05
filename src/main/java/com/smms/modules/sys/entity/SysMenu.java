@@ -7,6 +7,7 @@ import java.util.List;
 public class SysMenu {
     @Id
     @Column(name = "menu_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer menuId;
 
     /**

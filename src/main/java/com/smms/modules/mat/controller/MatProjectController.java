@@ -19,7 +19,7 @@ public class MatProjectController {
     private MatProjectMaterialService matProjectMaterialService;
 
 
-    @RequestMapping("/list/project/{projectId}")
+    @RequestMapping("/list/material/{projectId}")
     public Result listByProjectId(@RequestParam Map<String, Object> params, @PathVariable Integer projectId){
         //查询列表数据
         params.put("projectId", projectId);

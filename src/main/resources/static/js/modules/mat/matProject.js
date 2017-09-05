@@ -49,7 +49,7 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'mat/project/list/project/' + vm.projectId,
+        url: baseURL + 'mat/project/list/material/' + vm.projectId,
         datatype: "json",
         colModel: [
             {label: '编号', name: 'matId', index: "mat_id", width: 20, key: true},

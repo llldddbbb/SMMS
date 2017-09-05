@@ -96,7 +96,7 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'mat/category/list/category/' + vm.material.categoryId,
+        url: baseURL + 'mat/category/list/material/' + vm.material.categoryId,
         datatype: "json",
         colModel: [
             {label: '编号', name: 'matId', index: "mat_id", width: 20, key: true},

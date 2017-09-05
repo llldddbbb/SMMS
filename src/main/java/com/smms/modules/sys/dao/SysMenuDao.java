@@ -21,4 +21,5 @@ public interface SysMenuDao extends MyMapper<SysMenu> {
     Integer deleteBatch(Integer[] menuIds);
 
     List<SysMenu> queryUserList(Integer userId);
+
 }

@@ -86,7 +86,7 @@ public class SysMenuService {
     }
 
     public Integer save(SysMenu sysMenu) {
-        return sysMenuDao.insert(sysMenu);
+        return sysMenuDao.insertSelective(sysMenu);
     }
 
     public Integer update(SysMenu sysMenu){
@@ -100,4 +100,5 @@ public class SysMenuService {
     public List<SysMenu> queryUserList(Integer userId) {
         return sysMenuDao.queryUserList(userId);
     }
+
 }
