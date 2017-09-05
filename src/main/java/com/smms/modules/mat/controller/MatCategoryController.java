@@ -60,8 +60,20 @@ public class MatCategoryController {
     }
 
     @RequestMapping("/save")
-    public Result save(@RequestBody MatCategory category) throws Exception {
+    public Result save(@RequestBody MatCategory category) {
         matCategoryService.save(category);
+        return Result.ok();
+    }
+
+    @RequestMapping("/info/{categoryId}")
+    public Result info(@PathVariable Integer categoryId){
+        MatCategory matCategory=matCategoryService.getCategoryById(categoryId);
+        return Result.ok().put("category",matCategory);
+    }
+
+    @RequestMapping("/update")
+    public Result update(@RequestBody MatCategory category){
+        matCategoryService.update(category);
         return Result.ok();
     }
 

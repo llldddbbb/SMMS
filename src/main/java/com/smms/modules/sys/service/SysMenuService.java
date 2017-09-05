@@ -101,4 +101,8 @@ public class SysMenuService {
         return sysMenuDao.queryUserList(userId);
     }
 
+
+    public List<SysMenu> querySameRankByMenuId(Integer menuId) {
+        return sysMenuDao.querySameRankByMenuId(menuId);
+    }
 }

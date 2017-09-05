@@ -49,9 +49,8 @@ var vm = new Vue({
 
             $.get(baseURL + "mat/category/info/" + categoryId, function (r) {
                 vm.showList = false;
-                vm.title = "修改";
+                vm.title = "修改类目";
                 vm.category = r.category;
-
                 vm.getcategory();
             });
         },

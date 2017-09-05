@@ -34,21 +34,10 @@ public class MatCategoryService {
     public void save(MatCategory category){
         //创建菜单
         SysMenu sysMenu=new SysMenu();
-        //查询更新父级菜单
-        if(category.getParentId()!=33){
-            HashMap<String,Object> map=new HashMap<>();
-            map.put("categoryId",category.getParentId());
-            if(matMaterialService.queryList(map).size()>0){
-                throw new MyException("上级类目含有物料，不能添加为父级类目");
-            }else {
-                //更新父级菜单type成0：目录
-                SysMenu parentMenu=new SysMenu();
-                parentMenu.setMenuId(category.getParentId());
-                parentMenu.setType(0);
-                parentMenu.setIcon("fa fa-circle-o");
-                sysMenuService.update(parentMenu);
-            }
-        }
+
+        //判断父级是否有物料
+        this.updateMenuType(category);
+
         sysMenu.setType(1);//菜单
         BeanUtils.copyProperties(category,sysMenu);
         sysMenuService.save(sysMenu);
@@ -68,4 +57,50 @@ public class MatCategoryService {
         List<MatCategory> matCategoryList=matCategoryDao.queryList(new HashMap<>());
         return matCategoryList;
     }
+
+    public MatCategory getCategoryById(Integer categoryId) {
+        return matCategoryDao.selectByPrimaryKey(categoryId);
+    }
+
+    public void update(MatCategory category) {
+        //判断父级是否有子菜单
+        this.updateMenuType(category);
+        //更新类别
+        matCategoryDao.updateByPrimaryKeySelective(category);
+
+
+        //查询原父级是否有同级的菜单，如果没有则设置原父级的type为1
+        List<SysMenu> sameRankByMenuList=sysMenuService.querySameRankByMenuId(category.getCategoryId());
+        if(sameRankByMenuList.size()==1){
+            SysMenu parentMenu=new SysMenu();
+            parentMenu.setMenuId(sameRankByMenuList.get(0).getParentId());
+            parentMenu.setType(1);
+            sysMenuService.update(parentMenu);
+        }
+        //更新菜单
+        SysMenu sysMenu=new SysMenu();
+        BeanUtils.copyProperties(category,sysMenu);
+        sysMenu.setType(1);
+        sysMenu.setMenuId(category.getCategoryId());
+        sysMenuService.update(sysMenu);
+    }
+
+    //判断父级是否有物料
+    private void updateMenuType(MatCategory category){
+        if(category.getParentId()!=33){
+            HashMap<String,Object> map=new HashMap<>();
+            map.put("categoryId",category.getParentId());
+            if(matMaterialService.queryList(map).size()>0){
+                throw new MyException("上级类目含有物料，不能添加为父级类目");
+            }else {
+                //更新父级菜单type成0：目录
+                SysMenu parentMenu=new SysMenu();
+                parentMenu.setMenuId(category.getParentId());
+                parentMenu.setType(0);
+                parentMenu.setIcon("fa fa-circle-o");
+                sysMenuService.update(parentMenu);
+            }
+        }
+    }
+
 }

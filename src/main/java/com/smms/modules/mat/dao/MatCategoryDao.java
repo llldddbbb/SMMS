@@ -11,4 +11,5 @@ import java.util.List;
 public interface MatCategoryDao extends MyMapper<MatCategory> {
 
     List<MatCategory> queryList(HashMap<String, Object> map);
+
 }

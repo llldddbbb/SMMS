@@ -22,4 +22,5 @@ public interface SysMenuDao extends MyMapper<SysMenu> {
 
     List<SysMenu> queryUserList(Integer userId);
 
+    List<SysMenu> querySameRankByMenuId(Integer menuId);
 }

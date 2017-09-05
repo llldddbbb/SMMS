@@ -50,5 +50,9 @@
 
   </delete>
 
+  <select id="querySameRankByMenuId" resultMap="BaseResultMap">
+    SELECT * FROM sys_menu WHERE parent_id=(SELECT parent_id FROM sys_menu WHERE menu_id=#{menuId})
+  </select>
+
 
 </mapper>
