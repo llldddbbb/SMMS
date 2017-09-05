@@ -89,6 +89,9 @@ var vm = new Vue({
                     }
                 });
             });
+        },
+        downloadFile: function(type){
+            location.href="/mat/material/download/"+vm.material.matId+"?type="+type+"&token="+token
         }
     }
 
@@ -247,6 +250,7 @@ new AjaxUpload('#uploadProductPicture', {
 });
 
 function showFile(matId) {
+    Vue.set(vm.material,"matId",matId);
     var url = "mat/material/info/" + matId;
     $.ajax({
         type: "GET",
@@ -255,13 +259,13 @@ function showFile(matId) {
         data: {},
         success: function (r) {
             if (r.code === 0) {
-                vm.file = r.data;
+                vm.file = r.material;
                 layer.open({
                     type: 1,
                     offset: '50px',
                     skin: 'layui-layer-molv',
                     title: "下载资料",
-                    area: ['300px'],
+                    area: ['300px','280px'],
                     shade: 0,
                     shadeClose: false,
                     content: jQuery("#fileInfoLayer")

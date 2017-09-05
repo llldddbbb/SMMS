@@ -30,6 +30,12 @@
             vertical-align: text-top;
             padding-top: 2px;
         }
+        #fileInfoLayer td{
+            text-align: center;
+        }
+        #fileInfoLayer a{
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -151,23 +157,28 @@
         <table class="table table-hover table-bordered">
             <tr>
                 <td>爆炸图：</td>
-                <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+                <td v-if="file.explodedView"><a @click="downloadFile('explodedView')"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+                <td v-else>暂未上传</td>
             </tr>
            <tr>
                <td>2D组装图：</td>
-               <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+               <td v-if="file.assemblyDrawing2d"><a @click="downloadFile('assemblyDrawing2d')"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+               <td v-else>暂未上传</td>
            </tr>
            <tr>
                <td>3D组装图：</td>
-               <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+               <td v-if="file.assemblyDrawing3d"><a @click="downloadFile('assemblyDrawing3d')"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+               <td v-else>暂未上传</td>
            </tr>
            <tr>
                <td>技术文件：</td>
-               <td ><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+               <td v-if="file.technicalNote"><a @click="downloadFile('technicalNote')"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+               <td v-else>暂未上传</td>
            </tr>
             <tr>
                 <td>与实验相关报告：</td>
-                <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+                <td v-if="file.relatedExperimentReport"><a @click="downloadFile('relatedExperimentReport')"><span class="glyphicon glyphicon-download-alt"></span></a></td>
+                <td v-else>暂未上传</td>
             </tr>
         </table>
     </div>

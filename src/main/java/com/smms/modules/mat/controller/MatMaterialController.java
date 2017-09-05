@@ -11,6 +11,10 @@ import com.smms.modules.mat.service.MatMaterialService;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -104,5 +108,42 @@ public class MatMaterialController {
         String fileName = DateUtils.getCurrentTimeStr() + "." + file.getOriginalFilename().split("\\.")[1];
         FileUtils.writeByteArrayToFile(new File(baseFilePath+fileName),file.getBytes());
         return Result.ok().put("url", fileName);
+    }
+
+    @RequestMapping("/download/{matId}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable Integer matId,String type) throws Exception{
+        MatMaterial material = matMaterialService.getInfoById(matId);
+        String baseFilePath=this.getClass().getClassLoader().getResource("").toURI().getPath()+"/file/";
+        String filePath;
+        switch (type){
+            case "productPicture":
+                filePath=baseFilePath+"productPicture/"+material.getProductPicture();
+                break;
+            case "explodedView":
+                filePath=baseFilePath+"explodedView/"+material.getExplodedView();
+                break;
+            case "assemblyDrawing2d":
+                filePath=baseFilePath+"assemblyDrawing2d/"+material.getAssemblyDrawing2d();
+                break;
+            case "assemblyDrawing3d":
+                filePath=baseFilePath+"assemblyDrawing3d/"+material.getAssemblyDrawing3d();
+                break;
+            case "technicalNote":
+                filePath=baseFilePath+"technicalNote/"+material.getTechnicalNote();
+                break;
+            case "relatedExperimentReport":
+                filePath=baseFilePath+"relatedExperimentReport/"+material.getRelatedExperimentReport();
+                break;
+            default:
+                throw new MyException("文件位置异常");
+        }
+
+        File file=new File(filePath);
+        String fileName=material.getItem()+" "+type+"."+file.getName().split("\\.")[1];
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", fileName);
+        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+                headers, HttpStatus.CREATED);
     }
 }
