@@ -20,4 +20,6 @@ public interface SysUserDao extends MyMapper<SysUser> {
     int queryTotal(Map<String, Object> param);
 
     int deleteBatch(Integer[] userIds);
+
+    int updatePassword(Map<String, Object> map);
 }

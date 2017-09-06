@@ -1,10 +1,8 @@
 package com.smms.modules.sys.service;
 
 import com.smms.common.entity.Constant;
-import com.smms.common.entity.Query;
 import com.smms.common.exception.MyException;
 import com.smms.modules.sys.dao.SysUserDao;
-import com.smms.modules.sys.entity.SysRole;
 import com.smms.modules.sys.entity.SysUser;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -102,5 +101,13 @@ public class SysUserService {
     @Transactional
     public void deleteBatch(Integer[] userIds) {
         sysUserDao.deleteBatch(userIds);
+    }
+
+    public int updatePassword(Integer userId, String password, String newPassword) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("userId", userId);
+        map.put("password", password);
+        map.put("newPassword", newPassword);
+        return sysUserDao.updatePassword(map);
     }
 }

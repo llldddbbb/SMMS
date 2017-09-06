@@ -78,7 +78,7 @@ var vm = new Vue({
 				    success: function(r){
 						if(r.code == 0){
 							alert('操作成功', function(){
-                                vm.reload();
+                                parent.location.reload();
 							});
 						}else{
 							alert(r.msg);
@@ -97,7 +97,7 @@ var vm = new Vue({
 			    success: function(r){
 			    	if(r.code === 0){
 						alert('操作成功', function(){
-							vm.reload();
+                            parent.location.reload();
 						});
 					}else{
 						alert(r.msg);

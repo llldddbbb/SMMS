@@ -51,6 +51,36 @@ var vm = new Vue({
                 vm.user=result.user;
             })
         },
+        updatePassword: function(){
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-molv',
+                title: "修改密码",
+                area: ['550px', '270px'],
+                shadeClose: false,
+                content: jQuery("#passwordLayer"),
+                btn: ['修改','取消'],
+                btn1: function (index) {
+                    var data = "password="+vm.password+"&newPassword="+vm.newPassword;
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + "sys/user/password",
+                        data: data,
+                        dataType: "json",
+                        success: function(r){
+                            if(r.code == 0){
+                                layer.close(index);
+                                layer.alert('修改成功', function(){
+                                    location.reload();
+                                });
+                            }else{
+                                layer.alert(r.msg);
+                            }
+                        }
+                    });
+                }
+            });
+        },
         logout:function() {
             localStorage.removeItem('token');
             location.href = baseURL + 'login.html';

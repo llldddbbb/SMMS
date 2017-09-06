@@ -5,6 +5,7 @@ import com.smms.common.entity.Constant;
 import com.smms.common.entity.Query;
 import com.smms.common.entity.Result;
 import com.smms.common.util.PageUtils;
+import com.smms.common.validator.Assert;
 import com.smms.common.validator.ValidatorUtils;
 import com.smms.common.validator.group.AddGroup;
 import com.smms.common.validator.group.UpdateGroup;
@@ -13,6 +14,7 @@ import com.smms.modules.sys.service.SysUserRoleService;
 import com.smms.modules.sys.service.SysUserService;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -116,6 +118,25 @@ public class SysUserController extends AbstractController{
         }
 
         sysUserService.deleteBatch(userIds);
+
+        return Result.ok();
+    }
+
+    @SysLog("修改密码")
+    @RequestMapping("/password")
+    public Result password(String password, String newPassword){
+        Assert.isBlank(newPassword, "新密码不为能空");
+
+        //sha256加密
+        password = new Sha256Hash(password, getUser().getSalt()).toHex();
+        //sha256加密
+        newPassword = new Sha256Hash(newPassword, getUser().getSalt()).toHex();
+
+        //更新密码
+        int count = sysUserService.updatePassword(getUserId(), password, newPassword);
+        if(count == 0){
+            return Result.error("原密码不正确");
+        }
 
         return Result.ok();
     }

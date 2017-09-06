@@ -75,7 +75,7 @@ var vm = new Vue({
             if (matIds == null) {
                 return;
             }
-            confirm('确定要删除选中的记录？', function () {
+            confirm('同时会删除项目里的物料，确定要删除选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: baseURL + "mat/material/delete",

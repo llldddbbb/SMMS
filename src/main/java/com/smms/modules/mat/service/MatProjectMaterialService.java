@@ -38,4 +38,8 @@ public class MatProjectMaterialService {
         matProjectMaterialDao.insertSelective(projectMaterial);
         return Result.ok();
     }
+
+    public void deleteBatch(Integer[] matIds) {
+        matProjectMaterialDao.deleteBathByMatId(matIds);
+    }
 }
