@@ -6,7 +6,38 @@
       WARNING - @mbg.generated
     -->
     <id column="project_id" jdbcType="INTEGER" property="projectId" />
-    <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="order_num" jdbcType="INTEGER" property="orderNum" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+
+  <select id="queryList" resultMap="BaseResultMap">
+    select * from mat_project
+    <where>
+      <if test="name != null and name.trim() != ''">
+        and `name` like concat('%',#{name},'%')
+      </if>
+    </where>
+    <choose>
+      <when test="sidx != null and sidx.trim() != ''">
+        order by ${sidx} ${order}
+      </when>
+      <otherwise>
+        order by order_num asc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
+
+  <select id="queryTotal" resultType="int">
+    select count(*) from mat_project
+    <where>
+      <if test="name != null and name.trim() != ''">
+        and `name` like concat('%',#{name},'%')
+      </if>
+    </where>
+  </select>
+
 </mapper>

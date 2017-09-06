@@ -1,7 +1,13 @@
 package com.smms.modules.mat.entity;
 
+import com.smms.common.validator.group.AddGroup;
+import com.smms.common.validator.group.UpdateGroup;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "mat_project")
 public class MatProject {
@@ -9,11 +15,13 @@ public class MatProject {
     @Column(name = "project_id")
     private Integer projectId;
 
-    @Column(name = "project_name")
-    private String projectName;
+    @NotBlank(message="项目名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
+    private String name;
 
     @Column(name = "create_time")
     private Date createTime;
+
+    private Integer orderNum;
 
     /**
      * @return project_id
@@ -29,18 +37,12 @@ public class MatProject {
         this.projectId = projectId;
     }
 
-    /**
-     * @return project_name
-     */
-    public String getProjectName() {
-        return projectName;
+    public String getName() {
+        return name;
     }
 
-    /**
-     * @param projectName
-     */
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -55,5 +57,13 @@ public class MatProject {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(Integer orderNum) {
+        this.orderNum = orderNum;
     }
 }
