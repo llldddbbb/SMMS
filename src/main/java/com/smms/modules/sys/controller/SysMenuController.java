@@ -160,13 +160,13 @@ public class SysMenuController extends AbstractController{
             return ;
         }
 
-        //按钮
-        if(menu.getType() == Constant.MenuType.BUTTON.getValue()){
-            if(parentType != Constant.MenuType.MENU.getValue()){
-                throw new MyException("上级菜单只能为菜单类型");
-            }
-            return ;
-        }
+//        //按钮
+//        if(menu.getType() == Constant.MenuType.BUTTON.getValue()){
+//            if(parentType != Constant.MenuType.MENU.getValue()){
+//                throw new MyException("上级菜单只能为菜单类型");
+//            }
+//            return ;
+//        }
     }
 
 }

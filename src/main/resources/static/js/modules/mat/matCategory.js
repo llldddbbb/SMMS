@@ -250,6 +250,10 @@ new AjaxUpload('#uploadProductPicture', {
 });
 
 function showFile(matId) {
+    if(!hasPermission('mat:material:download')){
+        alert("未授权，请联系管理员");
+        return ;
+    }
     Vue.set(vm.material,"matId",matId);
     var url = "mat/material/info/" + matId;
     $.ajax({

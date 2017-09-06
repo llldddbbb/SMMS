@@ -10,6 +10,7 @@ import com.smms.modules.mat.entity.MatCategory;
 import com.smms.modules.mat.entity.MatMaterial;
 import com.smms.modules.mat.service.MatCategoryService;
 import com.smms.modules.mat.service.MatMaterialService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class MatCategoryController {
 
 
     @RequestMapping("/list/material/{categoryId}")
+    @RequiresPermissions("mat:material:list")
     public Result listByCategoryId(@RequestParam Map<String, Object> params, @PathVariable Integer categoryId) {
         //查询列表数据
         params.put("categoryId", categoryId);
@@ -42,13 +44,16 @@ public class MatCategoryController {
         return Result.ok().put("page", pageUtil);
     }
 
+    //获取分类列表
     @RequestMapping("/list")
+    @RequiresPermissions("mat:category:list")
     public List<MatCategory> list(){
         List<MatCategory> categoryList = matCategoryService.queryList(new HashMap<String, Object>());
         return categoryList;
     }
 
     @RequestMapping("/select")
+    @RequiresPermissions("mat:category:select")
     public Result select(){
         //查询列表数据
         List<MatCategory> categoryList = matCategoryService.querySelectList();
@@ -63,6 +68,7 @@ public class MatCategoryController {
     }
 
     @RequestMapping("/save")
+    @RequiresPermissions("mat:category:save")
     public Result save(@RequestBody MatCategory category) {
         ValidatorUtils.validateEntity(category, AddGroup.class);
         matCategoryService.save(category);
@@ -70,12 +76,14 @@ public class MatCategoryController {
     }
 
     @RequestMapping("/info/{categoryId}")
+    @RequiresPermissions("mat:category:info")
     public Result info(@PathVariable Integer categoryId){
         MatCategory matCategory=matCategoryService.getCategoryById(categoryId);
         return Result.ok().put("category",matCategory);
     }
 
     @RequestMapping("/update")
+    @RequiresPermissions("mat:category:update")
     public Result update(@RequestBody MatCategory category){
         ValidatorUtils.validateEntity(category, UpdateGroup.class);
         matCategoryService.update(category);
@@ -83,6 +91,7 @@ public class MatCategoryController {
     }
 
     @RequestMapping("/delete")
+    @RequiresPermissions("mat:category:delete")
     public Result delete(Integer categoryId){
         return matCategoryService.deleteCategory(categoryId);
     }

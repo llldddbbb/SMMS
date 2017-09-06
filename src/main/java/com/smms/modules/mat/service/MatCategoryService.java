@@ -42,7 +42,6 @@ public class MatCategoryService {
         sysMenu.setType(1);//菜单
         BeanUtils.copyProperties(category,sysMenu);
         sysMenuService.save(sysMenu);
-
         //保存类别
         category.setCategoryId(sysMenu.getMenuId());
         matCategoryDao.insertSelective(category);

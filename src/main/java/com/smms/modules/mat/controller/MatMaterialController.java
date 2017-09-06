@@ -9,6 +9,7 @@ import com.smms.common.validator.group.UpdateGroup;
 import com.smms.modules.mat.entity.MatMaterial;
 import com.smms.modules.mat.service.MatMaterialService;
 import org.apache.commons.io.FileUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,7 @@ public class MatMaterialController {
     private String PRODUCT_PICTURE_PATH;
 
     @RequestMapping("/info/{matId}")
+    @RequiresPermissions("mat:material:info")
     public Result getMaterial(@PathVariable Integer matId) {
         MatMaterial material = matMaterialService.getInfoById(matId);
         return Result.ok().put("material", material);
@@ -58,6 +60,7 @@ public class MatMaterialController {
     }
 
     @RequestMapping("/save")
+    @RequiresPermissions("mat:material:save")
     public Result saveMaterial(@RequestBody MatMaterial material) {
         ValidatorUtils.validateEntity(material, AddGroup.class);
         matMaterialService.saveMaterial(material);
@@ -65,6 +68,7 @@ public class MatMaterialController {
     }
 
     @RequestMapping("/update")
+    @RequiresPermissions("mat:material:update")
     public Result updateMaterial(@RequestBody MatMaterial material) {
         ValidatorUtils.validateEntity(material, UpdateGroup.class);
         matMaterialService.updateMaterial(material);
@@ -72,6 +76,7 @@ public class MatMaterialController {
     }
 
     @RequestMapping("/delete")
+    @RequiresPermissions("mat:material:delete")
     public Result deleteMaterial(@RequestBody Integer[] matIds) {
         matMaterialService.deleteBatch(matIds);
         return Result.ok();
@@ -111,6 +116,7 @@ public class MatMaterialController {
     }
 
     @RequestMapping("/download/{matId}")
+    @RequiresPermissions("mat:material:download")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Integer matId,String type) throws Exception{
         MatMaterial material = matMaterialService.getInfoById(matId);
         String baseFilePath=this.getClass().getClassLoader().getResource("").toURI().getPath()+"/file/";
