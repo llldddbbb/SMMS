@@ -11,7 +11,11 @@ var vm = new Vue({
         material: {
             categoryId: getUrlKey('categoryId')
         },
-        file: {}
+        file: {},
+        projectMaterial:{
+            projectId:'',
+            matId:''
+        }
     },
     methods: {
         query: function () {
@@ -71,7 +75,6 @@ var vm = new Vue({
             if (matIds == null) {
                 return;
             }
-
             confirm('确定要删除选中的记录？', function () {
                 $.ajax({
                     type: "POST",
@@ -92,6 +95,73 @@ var vm = new Vue({
         },
         downloadFile: function(type){
             location.href="/mat/material/download/"+vm.material.matId+"?type="+type+"&token="+token
+        },
+        addToProject:function () {
+            var matId = getSelectedRow();
+            if (matId == null) {
+                return;
+            }
+            vm.projectMaterial.matId=matId;
+            $("#projectSelectJqGrid").jqGrid({
+                url: baseURL + 'mat/project/list',
+                datatype: "json",
+                colModel: [
+                    { label: '项目ID', name: 'projectId', index: "project_id", width: 75, key: true },
+                    { label: '项目名称', name: 'name', width: 300 }
+                ],
+                height: 385,
+                rowNum: 10,
+                rowList : [10,30,50],
+                autowidth:true,
+                multiselect: true,
+                viewrecords:false,
+                pager: "#projectSelectJqGridPager",
+                jsonReader : {
+                    root: "page.list",
+                    page: "page.currPage",
+                    total: "page.totalPage",
+                    records: "page.totalCount"
+                },
+                prmNames : {
+                    page:"page",
+                    rows:"limit",
+                    order: "order"
+                }
+
+            });
+            layer.open({
+                type: 1,
+                offset: '50px',
+                skin: 'layui-layer-molv',
+                title: "选择项目",
+                area: ['438px','400px'],
+                shade: 0,
+                shadeClose: false,
+                content: jQuery("#projectSelectLayer")
+            });
+        },
+        saveMatProject:function () {
+            var projectId=getProjectSelectId();
+            if (projectId == null) {
+                return;
+            }
+            vm.projectMaterial.projectId=projectId;
+            $.ajax({
+                type:"POST",
+                url: baseURL+"mat/project/material/save",
+                contentType:"application/json",
+                data: JSON.stringify(vm.projectMaterial),
+                success: function (r) {
+                    if(r.code==0){
+                        alert('操作成功',function () {
+                            layer.closeAll();
+                            vm.reload();
+                        });
+                    }else{
+                        alert(r.msg);
+                    }
+                }
+            })
         }
     }
 
@@ -99,7 +169,7 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'mat/category/list/material/' + vm.material.categoryId,
+        url: baseURL + 'mat/category/material/list/' + vm.material.categoryId,
         datatype: "json",
         colModel: [
             {label: '编号', name: 'matId', index: "mat_id", width: 20, key: true},
@@ -168,6 +238,23 @@ new AjaxUpload('#explodedView', {
         }
     }
 });
+
+function getProjectSelectId(){
+    var grid = $("#projectSelectJqGrid");
+    var rowKey = grid.getGridParam("selrow");
+    if(!rowKey){
+        alert("请选择一条记录");
+        return ;
+    }
+
+    var selectedIDs = grid.getGridParam("selarrrow");
+    if(selectedIDs.length > 1){
+        alert("只能选择一条记录");
+        return ;
+    }
+
+    return selectedIDs[0];
+}
 
 new AjaxUpload('#technicalNote', {
     action: baseURL + 'mat/material/upload/file?type=technicalNote&token=' + token,

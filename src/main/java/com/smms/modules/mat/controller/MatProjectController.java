@@ -1,14 +1,13 @@
 package com.smms.modules.mat.controller;
 
+import com.smms.common.annotation.SysLog;
 import com.smms.common.entity.Query;
 import com.smms.common.entity.Result;
 import com.smms.common.util.PageUtils;
 import com.smms.common.validator.ValidatorUtils;
 import com.smms.common.validator.group.AddGroup;
 import com.smms.common.validator.group.UpdateGroup;
-import com.smms.modules.mat.entity.MatMaterial;
 import com.smms.modules.mat.entity.MatProject;
-import com.smms.modules.mat.service.MatProjectMaterialService;
 import com.smms.modules.mat.service.MatProjectService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,30 +21,8 @@ import java.util.Map;
 public class MatProjectController {
 
     @Autowired
-    private MatProjectMaterialService matProjectMaterialService;
-
-    @Autowired
     private MatProjectService matProjectService;
 
-
-    @RequestMapping("/list/material/{projectId}")
-    @RequiresPermissions("mat:matProject:list")
-    public Result listByProjectId(@RequestParam Map<String, Object> params, @PathVariable Integer projectId){
-        //查询列表数据
-        params.put("projectId", projectId);
-        Query query = new Query(params);
-        List<MatMaterial> materialList = matProjectMaterialService.queryList(query);
-        int total = matProjectMaterialService.queryTotal(query);
-        PageUtils pageUtil = new PageUtils(materialList, total, query.getLimit(), query.getPage());
-        return Result.ok().put("page", pageUtil);
-    }
-
-    @RequestMapping("/remove")
-    @RequiresPermissions("mat:matProject:remove")
-    public Result removeMaterial(@RequestBody Integer[] matIds){
-        matProjectMaterialService.removeMaterial(matIds);
-        return Result.ok();
-    }
 
     @RequestMapping("/list")
     @RequiresPermissions("mat:project:list")
@@ -60,12 +37,14 @@ public class MatProjectController {
         return Result.ok().put("page", pageUtil);
     }
 
+    @SysLog("新增项目")
     @RequestMapping("/save")
     @RequiresPermissions("mat:project:save")
     public Result save(@RequestBody MatProject project){
         ValidatorUtils.validateEntity(project, AddGroup.class);
         return matProjectService.save(project);
     }
+
 
     @RequestMapping("/info/{projectId}")
     @RequiresPermissions("mat:project:info")
@@ -74,6 +53,7 @@ public class MatProjectController {
         return Result.ok().put("project",project);
     }
 
+    @SysLog("修改项目")
     @RequestMapping("/update")
     @RequiresPermissions("mat:project:update")
     public Result update(@RequestBody MatProject project){
@@ -81,12 +61,12 @@ public class MatProjectController {
         return matProjectService.update(project);
     }
 
+    @SysLog("删除项目")
     @RequestMapping("/delete")
     @RequiresPermissions("mat:project:delete")
     public Result delete(@RequestBody Integer projectId){
        return matProjectService.delete(projectId);
     }
-
 
 
 }

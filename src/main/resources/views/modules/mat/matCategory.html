@@ -49,6 +49,7 @@
             <a v-if="hasPermission('mat:material:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus">&nbsp;新增</i></a>
             <a v-if="hasPermission('mat:material:update')" class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o">&nbsp;修改</i></a>
             <a v-if="hasPermission('mat:material:delete')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o">&nbsp;删除</i></a>
+            <a v-if="hasPermission('mat:project:material:save')" class="btn btn-success" @click="addToProject" ><i class="fa fa-cart-arrow-down">&nbsp;添加至项目</i></a>
         </div>
 
         <table id="jqGrid"></table>
@@ -181,6 +182,15 @@
                 <td v-else>暂未上传</td>
             </tr>
         </table>
+    </div>
+
+    <!--项目选择弹窗-->
+    <div id="projectSelectLayer" style="display: none;padding: 10px">
+        <div class="grid-btn">
+            <a v-if="hasPermission('mat:project:list')" class="btn btn-primary" @click="saveMatProject"><i class="fa fa-plus">&nbsp;提交</i></a>
+        </div>
+        <table id="projectSelectJqGrid" ></table>
+        <div id="projectSelectJqGridPager" ></div>
     </div>
 </div>
 <script src="../../js/modules/mat/matCategory.js"></script>

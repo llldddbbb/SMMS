@@ -1,5 +1,6 @@
 package com.smms.modules.mat.controller;
 
+import com.smms.common.annotation.SysLog;
 import com.smms.common.entity.Query;
 import com.smms.common.entity.Result;
 import com.smms.common.util.PageUtils;
@@ -30,7 +31,7 @@ public class MatCategoryController {
 
 
 
-    @RequestMapping("/list/material/{categoryId}")
+    @RequestMapping("/material/list/{categoryId}")
     @RequiresPermissions("mat:material:list")
     public Result listByCategoryId(@RequestParam Map<String, Object> params, @PathVariable Integer categoryId) {
         //查询列表数据
@@ -67,6 +68,7 @@ public class MatCategoryController {
         return Result.ok().put("categoryList", categoryList);
     }
 
+    @SysLog("新增类别")
     @RequestMapping("/save")
     @RequiresPermissions("mat:category:save")
     public Result save(@RequestBody MatCategory category) {
@@ -82,6 +84,7 @@ public class MatCategoryController {
         return Result.ok().put("category",matCategory);
     }
 
+    @SysLog("修改类别")
     @RequestMapping("/update")
     @RequiresPermissions("mat:category:update")
     public Result update(@RequestBody MatCategory category){
@@ -90,6 +93,7 @@ public class MatCategoryController {
         return Result.ok();
     }
 
+    @SysLog("删除类别")
     @RequestMapping("/delete")
     @RequiresPermissions("mat:category:delete")
     public Result delete(Integer categoryId){

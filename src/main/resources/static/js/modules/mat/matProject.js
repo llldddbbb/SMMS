@@ -28,7 +28,7 @@ var vm = new Vue({
             confirm('确定要移除选中的记录？', function () {
                 $.ajax({
                     type: "POST",
-                    url: baseURL + "mat/project/remove",
+                    url: baseURL + "mat/project/material/remove",
                     contentType: "application/json",
                     data: JSON.stringify(matIds),
                     success: function (r) {
@@ -49,7 +49,7 @@ var vm = new Vue({
 
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'mat/project/list/material/' + vm.projectId,
+        url: baseURL + 'mat/project/material/list/' + vm.projectId,
         datatype: "json",
         colModel: [
             {label: '编号', name: 'matId', index: "mat_id", width: 20, key: true},

@@ -1,5 +1,6 @@
 package com.smms.modules.mat.controller;
 
+import com.smms.common.annotation.SysLog;
 import com.smms.common.entity.Result;
 import com.smms.common.exception.MyException;
 import com.smms.common.util.DateUtils;
@@ -59,6 +60,7 @@ public class MatMaterialController {
         input.close();
     }
 
+    @SysLog("新增物料")
     @RequestMapping("/save")
     @RequiresPermissions("mat:material:save")
     public Result saveMaterial(@RequestBody MatMaterial material) {
@@ -67,6 +69,7 @@ public class MatMaterialController {
         return Result.ok();
     }
 
+    @SysLog("修改物料")
     @RequestMapping("/update")
     @RequiresPermissions("mat:material:update")
     public Result updateMaterial(@RequestBody MatMaterial material) {
@@ -75,6 +78,7 @@ public class MatMaterialController {
         return Result.ok();
     }
 
+    @SysLog("删除物料")
     @RequestMapping("/delete")
     @RequiresPermissions("mat:material:delete")
     public Result deleteMaterial(@RequestBody Integer[] matIds) {
@@ -115,6 +119,7 @@ public class MatMaterialController {
         return Result.ok().put("url", fileName);
     }
 
+    @SysLog("下载资料")
     @RequestMapping("/download/{matId}")
     @RequiresPermissions("mat:material:download")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Integer matId,String type) throws Exception{
