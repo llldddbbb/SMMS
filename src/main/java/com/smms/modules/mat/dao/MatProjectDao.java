@@ -13,5 +13,4 @@ public interface MatProjectDao extends MyMapper<MatProject> {
     
     List<MatProject> queryList(Map<String, Object> map);
 
-    int queryTotal(Map<String, Object> map);
 }

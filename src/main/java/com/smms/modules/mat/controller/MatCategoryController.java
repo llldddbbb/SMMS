@@ -57,7 +57,7 @@ public class MatCategoryController {
     @RequiresPermissions("mat:category:select")
     public Result select(){
         //查询列表数据
-        List<MatCategory> categoryList = matCategoryService.querySelectList();
+        List<MatCategory> categoryList = matCategoryService.queryList(new HashMap<>());
         //添加顶级菜单
         MatCategory root = new MatCategory();
         root.setCategoryId(33);

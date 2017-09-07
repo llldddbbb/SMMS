@@ -94,7 +94,7 @@ var vm = new Vue({
             });
         },
         downloadFile: function(type){
-            location.href="/mat/material/download/"+vm.material.matId+"?type="+type+"&token="+token
+            location.href=baseURL+"/mat/material/download/"+vm.material.matId+"?type="+type+"&token="+token
         },
         addToProject:function () {
             var matId = getSelectedRow();
@@ -102,33 +102,6 @@ var vm = new Vue({
                 return;
             }
             vm.projectMaterial.matId=matId;
-            $("#projectSelectJqGrid").jqGrid({
-                url: baseURL + 'mat/project/list',
-                datatype: "json",
-                colModel: [
-                    { label: '项目ID', name: 'projectId', index: "project_id", width: 75, key: true },
-                    { label: '项目名称', name: 'name', width: 300 }
-                ],
-                height: 385,
-                rowNum: 10,
-                rowList : [10,30,50],
-                autowidth:true,
-                multiselect: true,
-                viewrecords:false,
-                pager: "#projectSelectJqGridPager",
-                jsonReader : {
-                    root: "page.list",
-                    page: "page.currPage",
-                    total: "page.totalPage",
-                    records: "page.totalCount"
-                },
-                prmNames : {
-                    page:"page",
-                    rows:"limit",
-                    order: "order"
-                }
-
-            });
             layer.open({
                 type: 1,
                 offset: '50px',
@@ -141,8 +114,8 @@ var vm = new Vue({
             });
         },
         saveMatProject:function () {
-            var projectId=getProjectSelectId();
-            if (projectId == null) {
+            var projectId=getprojectId();
+            if (projectId == false) {
                 return;
             }
             vm.projectMaterial.projectId=projectId;
@@ -166,30 +139,57 @@ var vm = new Vue({
     }
 
 });
+var project = {
+    id: "projectTable",
+    table: null,
+    layerIndex: -1
+};
+/**
+ * 初始化表格的列
+ */
+project.initColumn = function () {
+    var columns = [
+        {field: 'selectItem', radio: true},
+        {title: 'ID', field: 'projectId', visible: false, align: 'center', valign: 'middle', width: '30px'},
+        {title: '项目名称', field: 'name', align: 'center', valign: 'middle', sortable: true, width: '180px'},
+    ];
+    return columns;
+};
+
+function getprojectId() {
+    var selected = $('#projectTable').bootstrapTreeTable('getSelections');
+    if (selected.length == 0) {
+        alert("请选择一条记录");
+        return false;
+    } else {
+        return selected[0].id;
+    }
+}
 
 $(function () {
     $("#jqGrid").jqGrid({
         url: baseURL + 'mat/category/material/list/' + vm.material.categoryId,
         datatype: "json",
         colModel: [
-            {label: '编号', name: 'matId', index: "mat_id", width: 20, key: true},
+            {label: '编号', name: 'matId', index: "mat_id", width: 25, key: true},
             {
                 label: '产品图像',
                 name: 'productPicture',
                 index: "product_picture",
                 width: 90,
                 formatter: function (value, options, row) {
-                    return '<a href="/mat/material/productPicture?pictureName=' + value + '" target="_blank" ><img style="width: 100%;height: 120px" src="/mat/material/productPicture?pictureName=' + value + '" /></a>';
+                    return '<a href="'+baseURL+'/mat/material/productPicture?pictureName=' + value + '" target="_blank" ><img style="width: 100%;height: 120px" src="'+baseURL+'/mat/material/productPicture?pictureName=' + value + '" /></a>';
                 }
             },
             {label: '部件名称', name: 'item', index: 'item', width: 90},
-            {label: '部件型号', name: 'model', index: 'model', width: 110},
-            {label: '价格', name: 'price', index: 'price', width: 30},
+            {label: '部件型号', name: 'model', index: 'model', width: 70},
+            {label: '应用产品', name: 'applications', index: 'applications', width: 70},
+            {label: '价格', name: 'price', index: 'price', width: 35},
             {label: '生产厂家', name: 'manufacturer', index: 'manufacturer', width: 80},
             {label: '联系方式', name: 'contact', index: 'contact', width: 40},
             {label: '备注', name: 'remarks', index: 'remarks', width: 50},
             {
-                label: '网址', name: 'website', index: 'website', width: 20, formatter: function (value) {
+                label: '网址', name: 'website', index: 'website', width: 25, formatter: function (value) {
                 return '<a href="' + value + '" target="_blank" title="' + value + '">查看</a>'
             }
             },
@@ -222,6 +222,16 @@ $(function () {
             // $("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" });
         }
     });
+    var colunms = project.initColumn();
+    var table = new TreeTable(project.id, baseURL + "mat/project/list", colunms);
+    table.setExpandColumn(2);
+    table.setRootCodeValue(34);
+    table.setIdField("projectId");
+    table.setCodeField("projectId");
+    table.setParentCodeField("parentId");
+    table.setExpandAll(false);
+    table.init();
+    project.table = table;
 });
 
 new AjaxUpload('#explodedView', {
@@ -238,23 +248,6 @@ new AjaxUpload('#explodedView', {
         }
     }
 });
-
-function getProjectSelectId(){
-    var grid = $("#projectSelectJqGrid");
-    var rowKey = grid.getGridParam("selrow");
-    if(!rowKey){
-        alert("请选择一条记录");
-        return ;
-    }
-
-    var selectedIDs = grid.getGridParam("selarrrow");
-    if(selectedIDs.length > 1){
-        alert("只能选择一条记录");
-        return ;
-    }
-
-    return selectedIDs[0];
-}
 
 new AjaxUpload('#technicalNote', {
     action: baseURL + 'mat/material/upload/file?type=technicalNote&token=' + token,

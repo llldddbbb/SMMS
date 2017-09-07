@@ -1,9 +1,7 @@
 package com.smms.modules.mat.controller;
 
 import com.smms.common.annotation.SysLog;
-import com.smms.common.entity.Query;
 import com.smms.common.entity.Result;
-import com.smms.common.util.PageUtils;
 import com.smms.common.validator.ValidatorUtils;
 import com.smms.common.validator.group.AddGroup;
 import com.smms.common.validator.group.UpdateGroup;
@@ -11,10 +9,13 @@ import com.smms.modules.mat.entity.MatProject;
 import com.smms.modules.mat.service.MatProjectService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/mat/project")
@@ -26,15 +27,24 @@ public class MatProjectController {
 
     @RequestMapping("/list")
     @RequiresPermissions("mat:project:list")
-    public Result queryList(@RequestParam Map<String, Object> params){
+    public List<MatProject>  queryList(){
+        List<MatProject> matProjectList = matProjectService.queryList(new HashMap<String, Object>());
+        return matProjectList;
+    }
+
+    @RequestMapping("/select")
+    @RequiresPermissions("mat:project:select")
+    public Result select(){
         //查询列表数据
-        Query query = new Query(params);
-        List<MatProject> projectList = matProjectService.queryList(query);
-        int total = matProjectService.queryTotal(query);
-
-        PageUtils pageUtil = new PageUtils(projectList, total, query.getLimit(), query.getPage());
-
-        return Result.ok().put("page", pageUtil);
+        List<MatProject> projectList = matProjectService.queryList(new HashMap<>());
+        //添加顶级菜单
+        MatProject root = new MatProject();
+        root.setProjectId(34);
+        root.setName("一级项目");
+        root.setParentId(-1);
+        root.setOpen(true);
+        projectList.add(root);
+        return Result.ok().put("projectList", projectList);
     }
 
     @SysLog("新增项目")
@@ -64,7 +74,7 @@ public class MatProjectController {
     @SysLog("删除项目")
     @RequestMapping("/delete")
     @RequiresPermissions("mat:project:delete")
-    public Result delete(@RequestBody Integer projectId){
+    public Result delete(Integer projectId){
        return matProjectService.delete(projectId);
     }
 

@@ -8,6 +8,7 @@
     <id column="mat_id" jdbcType="INTEGER" property="matId" />
     <result column="item" jdbcType="VARCHAR" property="item" />
     <result column="model" jdbcType="VARCHAR" property="model" />
+    <result column="applications" jdbcType="VARCHAR" property="applications" />
     <result column="manufacturer" jdbcType="VARCHAR" property="manufacturer" />
     <result column="price" jdbcType="VARCHAR" property="price" />
     <result column="website" jdbcType="VARCHAR" property="website" />

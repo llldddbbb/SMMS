@@ -105,4 +105,13 @@ public class SysMenuService {
     public List<SysMenu> querySameRankByMenuId(Integer menuId) {
         return sysMenuDao.querySameRankByMenuId(menuId);
     }
+
+    public void updateParentMenu(Integer parentId,Integer type) {
+        //更新父级菜单type成0：目录
+        SysMenu parentMenu=new SysMenu();
+        parentMenu.setMenuId(parentId);
+        parentMenu.setType(type);
+        parentMenu.setIcon("fa fa-circle-o");
+        this.update(parentMenu);
+    }
 }

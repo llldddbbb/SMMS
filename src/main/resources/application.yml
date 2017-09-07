@@ -5,12 +5,12 @@ server:
         max-threads: 1000
         min-spare-threads: 30
     port: 8090
-
+    context-path: /SMMS
 # mysql
 spring:
     # 环境 dev|pro
     profiles:
-        active: dev
+        active: pro
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver

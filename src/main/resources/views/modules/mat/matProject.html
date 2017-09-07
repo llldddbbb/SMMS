@@ -36,11 +36,11 @@
 <div id="app" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <div class="form-group col-sm-2">
+            <div v-if="hasPermission('mat:project:material:list')" class="form-group col-sm-2">
                 <input type="text" class="form-control" @keyup.enter="query" v-model="q.item" placeholder="部件名称">
             </div>
-            <a class="btn btn-default" @click="query">查询</a>
-            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o">&nbsp;移除</i></a>
+            <a v-if="hasPermission('mat:project:material:list')" class="btn btn-default" @click="query">查询</a>
+            <a v-if="hasPermission('mat:project:material:remove')" class="btn btn-primary" @click="del"><i class="fa fa-trash-o">&nbsp;移除</i></a>
         </div>
 
         <table id="jqGrid"></table>

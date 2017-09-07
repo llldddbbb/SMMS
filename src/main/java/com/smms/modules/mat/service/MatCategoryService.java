@@ -33,12 +33,10 @@ public class MatCategoryService {
 
     @Transactional
     public void save(MatCategory category){
-        //创建菜单
-        SysMenu sysMenu=new SysMenu();
-
         //判断父级是否有物料
         this.updateMenuType(category);
-
+        //创建菜单
+        SysMenu sysMenu=new SysMenu();
         sysMenu.setType(1);//菜单
         BeanUtils.copyProperties(category,sysMenu);
         sysMenuService.save(sysMenu);
@@ -52,11 +50,6 @@ public class MatCategoryService {
 
     }
 
-
-    public List<MatCategory> querySelectList() {
-        List<MatCategory> matCategoryList=matCategoryDao.queryList(new HashMap<>());
-        return matCategoryList;
-    }
 
     public MatCategory getCategoryById(Integer categoryId) {
         return matCategoryDao.selectByPrimaryKey(categoryId);
@@ -73,10 +66,7 @@ public class MatCategoryService {
         //查询原父级是否有同级的菜单，如果没有则设置原父级的type为1
         List<SysMenu> sameRankByMenuList=sysMenuService.querySameRankByMenuId(category.getCategoryId());
         if(sameRankByMenuList.size()==1){
-            SysMenu parentMenu=new SysMenu();
-            parentMenu.setMenuId(sameRankByMenuList.get(0).getParentId());
-            parentMenu.setType(1);
-            sysMenuService.update(parentMenu);
+            sysMenuService.updateParentMenu(sameRankByMenuList.get(0).getParentId(),1);
         }
         //更新菜单
         SysMenu sysMenu=new SysMenu();
@@ -95,11 +85,7 @@ public class MatCategoryService {
                 throw new MyException("上级类目含有物料，不能添加为父级类目");
             }else {
                 //更新父级菜单type成0：目录
-                SysMenu parentMenu=new SysMenu();
-                parentMenu.setMenuId(category.getParentId());
-                parentMenu.setType(0);
-                parentMenu.setIcon("fa fa-circle-o");
-                sysMenuService.update(parentMenu);
+                sysMenuService.updateParentMenu(category.getParentId(),0);
             }
         }
     }
@@ -119,6 +105,11 @@ public class MatCategoryService {
         }
         //删除类别
         matCategoryDao.deleteByPrimaryKey(categoryId);
+        //查询原父级是否有同级的菜单，如果没有则设置原父级的type为1
+        List<SysMenu> sameRankByMenuList=sysMenuService.querySameRankByMenuId(categoryId);
+        if(sameRankByMenuList.size()==1){
+            sysMenuService.updateParentMenu(sameRankByMenuList.get(0).getParentId(),1);
+        }
         //删除菜单
         sysMenuService.deleteBatch(new Integer[]{categoryId});
         return Result.ok();

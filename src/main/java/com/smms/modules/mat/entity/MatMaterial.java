@@ -27,6 +27,9 @@ public class MatMaterial {
      */
     private String model;
 
+
+    private String applications;
+
     /**
      * 生产厂家
      */
@@ -368,5 +371,13 @@ public class MatMaterial {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getApplications() {
+        return applications;
+    }
+
+    public void setApplications(String applications) {
+        this.applications = applications;
     }
 }

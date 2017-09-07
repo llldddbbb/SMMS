@@ -153,7 +153,7 @@ public class MatMaterialController {
         String fileName=material.getItem()+" "+type+"."+file.getName().split("\\.")[1];
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-        headers.setContentDispositionFormData("attachment", fileName);
+        headers.setContentDispositionFormData("attachment", new String( fileName.getBytes("gb2312"), "ISO8859-1" ));
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
                 headers, HttpStatus.CREATED);
     }

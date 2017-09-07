@@ -33,7 +33,7 @@ public class MatProjectMaterialController {
         return Result.ok().put("page", pageUtil);
     }
 
-    @SysLog("移除项目无聊")
+    @SysLog("移除项目物料")
     @RequestMapping("/remove")
     @RequiresPermissions("mat:project:material:remove")
     public Result removeMaterial(@RequestBody Integer[] matIds){
